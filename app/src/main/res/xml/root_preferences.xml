@@ -1,0 +1,42 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/messages_header">
+        <SeekBarPreference
+            app:key="@string/number_of_inputs_key"
+            app:title="@string/number_of_inputs"
+            app:min="1"
+            android:max="8"
+            app:showSeekBarValue="true"
+            app:defaultValue="4"/>
+
+        <Preference
+            android:title="@string/goto_accessibility_settings"
+            android:key="@string/goto_accessibility_key" />
+
+
+        <CheckBoxPreference
+            android:title="@string/overlay_passthrough"
+            android:key="@string/overlay_passthrough_key"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference
+            android:title="@string/back_action"
+            android:key="@string/back_action_key"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:title="@string/off_action"
+            android:key="@string/off_action_key"
+            android:defaultValue="false"/>
+
+        <SeekBarPreference
+            android:title="@string/camera_y"
+            android:key="@string/camera_y_key"
+            app:min="0"
+            android:max="1000"
+            app:showSeekBarValue="true"
+            app:defaultValue="50"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">AccessibilityApi</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="messages_header">Settings</string>
+
+    <string name="number_of_inputs_key">number_of_inputs</string>
+    <string name="number_of_inputs">Number of Inputs</string>
+
+    <string name="goto_accessibility_key">goto_accessibility_settings</string>
+    <string name="goto_accessibility_settings">Go to Accessibility Settings</string>
+
+    <string name="overlay_passthrough_key">overlay_passthrough</string>
+    <string name="overlay_passthrough">Make Overlay passthrough</string>
+
+    <string name="back_action_key">back_action</string>
+    <string name="back_action">Add Back Action</string>
+
+    <string name="off_action_key">off_action</string>
+    <string name="off_action">Add Off Action</string>
+
+    <string name="camera_y_key">camera_y</string>
+    <string name="camera_y">Camera Y</string>
 </resources>

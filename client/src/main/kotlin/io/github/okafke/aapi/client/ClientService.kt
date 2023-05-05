@@ -11,7 +11,7 @@ import java.util.function.Consumer
 
 class ClientService(val ctx: Context) {
     companion object {
-        const val API_PACKAGE = "io.github.okafke.aapi"
+        const val API_PACKAGE = "io.github.okafke.aapi.app"
         var PACKAGE_NAME = BuildConfig.LIBRARY_PACKAGE_NAME
     }
 
@@ -104,7 +104,7 @@ class ClientService(val ctx: Context) {
             val intent = Intent(INavigationTreeService::class.java.name)
             intent.setClassName(API_PACKAGE, "$API_PACKAGE.service.AApiConnectionService")
             intent.action = "accessibilityapi.tree"
-            intent.setPackage("io.github.okafke.aapi")
+            intent.setPackage("io.github.okafke.aapi.app")
             ctx.bindService(intent, connection, 0) // Service.BIND_ABOVE_CLIENT?
         }
     }
