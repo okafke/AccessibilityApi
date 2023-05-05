@@ -4,10 +4,12 @@ import com.android.build.api.instrumentation.AsmClassVisitorFactory
 import com.android.build.api.instrumentation.ClassContext
 import com.android.build.api.instrumentation.ClassData
 import com.android.build.api.instrumentation.InstrumentationParameters
+import io.github.okafke.aapi.client.json.instances.Instances
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Internal
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.Opcodes.*
+import org.objectweb.asm.Type
 import org.objectweb.asm.tree.*
 import java.io.File
 import java.io.FileOutputStream
@@ -170,11 +172,10 @@ abstract class AnnotationProcessingClassVisitorFactory :
     }
 
     private fun injectInstanceCall(uid: String, il: InsnList): InsnList {
-        // TODO: if this were outside the project, together with the client lib we could use Type.getDescriptor etc.
-        il.add(FieldInsnNode(GETSTATIC, "me/okafke/accessibilityapi/json/Instances", "INSTANCE", "Lme/okafke/accessibilityapi/json/Instances;"))
+        il.add(FieldInsnNode(GETSTATIC, Type.getInternalName(Instances::class.java), "INSTANCE", Type.getDescriptor(Instances::class.java)))
         il.add(LdcInsnNode(uid))
         il.add(VarInsnNode(ALOAD, 0)) // load 'this'
-        il.add(MethodInsnNode(INVOKEVIRTUAL, "me/okafke/accessibilityapi/json/Instances", "addInstance", "(Ljava/lang/String;Ljava/lang/Object;)V"))
+        il.add(MethodInsnNode(INVOKEVIRTUAL, Type.getInternalName(Instances::class.java), "addInstance", "(Ljava/lang/String;Ljava/lang/Object;)V"))
         return il
     }
 

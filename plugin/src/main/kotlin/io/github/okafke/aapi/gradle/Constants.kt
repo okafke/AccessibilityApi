@@ -4,12 +4,13 @@ import com.google.gson.ExclusionStrategy
 import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import org.objectweb.asm.Type
 
 object Constants {
-    const val actionDesc = "Lme/okafke/annotations/Action;"
-    const val categoryDesc = "Lme/okafke/annotations/Category;"
-    const val treeDesc = "Lme/okafke/annotations/Tree;"
-    const val contextDesc = "Lme/okafke/annotations/ContextProvider;"
+    val actionDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.Action::class.java)!!
+    val categoryDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.Category::class.java)!!
+    val treeDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.Tree::class.java)!!
+    val contextDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.ContextProvider::class.java)!!
 
     val GSON: Gson = GsonBuilder()
         .setPrettyPrinting()
