@@ -6,7 +6,7 @@ import java.io.File
 
 open class GenerateKeyboardTreeTask: DefaultTask() {
     companion object {
-        const val KEY_BOARD_CLASS = "me.okafke.accessibilityapi.keyboard.Keyboard"
+        const val KEY_BOARD_CLASS = "io.github.okafke.aapi.keyboard.Keyboard"
         const val KEYS = "abcdefghijklmnopqrstuvwxyz1234567890"
     }
 

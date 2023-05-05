@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AccessibilityApi"
 include ':app'
+include ':aidl'
 include ':plugin'
