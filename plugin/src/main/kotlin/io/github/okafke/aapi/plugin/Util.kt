@@ -1,4 +1,4 @@
-package io.github.okafke.aapi.gradle
+package io.github.okafke.aapi.plugin
 
 import org.objectweb.asm.tree.AnnotationNode
 import org.objectweb.asm.tree.ClassNode

@@ -1,4 +1,4 @@
-package io.github.okafke.aapi.gradle
+package io.github.okafke.aapi.plugin
 
 import com.android.build.api.instrumentation.FramesComputationMode
 import com.android.build.api.instrumentation.InstrumentationScope

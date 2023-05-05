@@ -1,4 +1,4 @@
-package io.github.okafke.aapi.gradle
+package io.github.okafke.aapi.plugin
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement

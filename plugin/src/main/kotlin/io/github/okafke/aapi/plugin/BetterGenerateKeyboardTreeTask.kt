@@ -1,4 +1,4 @@
-package io.github.okafke.aapi.gradle
+package io.github.okafke.aapi.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction

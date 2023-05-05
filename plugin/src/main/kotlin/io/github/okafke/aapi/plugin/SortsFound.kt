@@ -1,4 +1,4 @@
-package io.github.okafke.aapi.gradle
+package io.github.okafke.aapi.plugin
 
 interface SortsFound: JsonableWithFound {
     val children: MutableSet<String>
