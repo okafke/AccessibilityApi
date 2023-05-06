@@ -31,7 +31,9 @@ open class BetterGenerateKeyboardTreeTask: DefaultTask() {
 
             val moreCategory = moreTree(true)
             val tree = buildTree("lowercase", degree, keyCategory, numCategory, moreCategory)
-            val ctx = InstrumentationContext(File(project.rootProject.rootDir, "tree"))
+
+            val extension = project.extensions.create("aapi", AApiExtension::class.java)
+            val ctx = InstrumentationContext(extension.getDir(project), extension.getCacheDir(project))
             ctx.writeTree(tree, degree)
 
             val moreCategoryUpper = moreTree(false)

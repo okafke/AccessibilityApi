@@ -10,6 +10,11 @@ class InstrumentationContext(private val dir: File, private val cacheDir: File):
     private val categories = HashMap<String, Category>()
     private val trees = ConcurrentHashMap<String, Tree>()
 
+    init {
+        dir.mkdirs()
+        cacheDir.mkdirs()
+    }
+
     fun addAction(action: Action) {
         actions[action.name] = action
     }

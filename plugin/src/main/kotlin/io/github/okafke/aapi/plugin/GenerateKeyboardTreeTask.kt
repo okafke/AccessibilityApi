@@ -46,7 +46,8 @@ open class GenerateKeyboardTreeTask: DefaultTask() {
             lowerTree.found["$char"] = action
         }
 
-        val ctx = InstrumentationContext(File(project.rootProject.rootDir, "tree"))
+        val extension = project.extensions.create("aapi", AApiExtension::class.java)
+        val ctx = InstrumentationContext(extension.getDir(project), extension.getCacheDir(project))
         ctx.writeTree(lowerTree)
         ctx.writeTree(upperTree)
     }

@@ -5,14 +5,13 @@ import com.android.build.api.instrumentation.InstrumentationScope
 import com.android.build.api.variant.AndroidComponentsExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import java.io.File
 
 @Suppress("unused")
 class AApiGradlePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         val extension = project.extensions.create("aapi", AApiExtension::class.java)
-        val dir = extension.getDir().map { d -> d.asFile }.orElse(File(project.rootProject.rootDir, "build/tree")).get()
-        val cacheDir = extension.getCacheDir().map { d -> d.asFile }.orElse(File(project.rootProject.rootDir, "build/tree")).get()
+        val dir = extension.getDir(project)
+        val cacheDir = extension.getCacheDir(project)
         dir.mkdirs()
         cacheDir.mkdirs()
         project.tasks.register("generateKeyboardTree", GenerateKeyboardTreeTask::class.java)
