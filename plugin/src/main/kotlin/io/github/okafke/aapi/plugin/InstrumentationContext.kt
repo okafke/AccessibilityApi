@@ -108,6 +108,7 @@ class InstrumentationContext(private val dir: File, private val cacheDir: File):
     private fun updateCache() {
         val cache = File(cacheDir, "cache.json")
         if (!cache.exists()) {
+            cache.parentFile.mkdirs()
             cache.createNewFile()
             FileOutputStream(cache).use {
                 it.write("""

@@ -65,13 +65,10 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
 
     override fun onServiceConnected() {
         println("AAPI onServiceConnected() called!")
-        val intent = Intent(INavigationTreeService::class.java.name)
+        val intent = Intent(AApiConnectionService::class.java.name)
         intent.action = "accessibilityapi.tree"
         intent.setPackage("io.github.okafke.aapi.app")
         startService(intent)
-
-        val usbManager = applicationContext.getSystemService(USB_SERVICE) as UsbManager
-
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         preferences.registerOnSharedPreferenceChangeListener { _, _ ->
@@ -157,12 +154,7 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
     // AccessibilityService methods
 
     override fun onAccessibilityEvent(event: AccessibilityEvent) {
-        val window = event.source?.window
-        if (window != null) {
-            recurseWindowInfo(window)
-        }
-
-        //println("event $event")
+        // TODO: timeout between permissions!!!!!
         if ("com.google.android.permissioncontroller" != event.packageName) {
             inAllowDeny = false
             return
@@ -200,62 +192,6 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
         }
 
         //TODO("Not yet implemented")
-    }
-
-    fun getFocusedNode(): AccessibilityNodeInfo? {
-        val windows = this.windows
-        if (windows != null) {
-            for (window in windows) {
-                val node = recurseWindowInfo(window)
-                if (node != null) {
-                    return node
-                }
-            }
-        }
-
-        return null
-    }
-
-    private fun recurseWindowInfo(windowInfo: AccessibilityWindowInfo): AccessibilityNodeInfo? {
-        val nodeInfo = windowInfo.root
-        if (nodeInfo != null) {
-            if (nodeInfo.isFocused) {
-                println("Focused node info $nodeInfo")
-            }
-
-            val node = recurseNodeInfo(nodeInfo)
-            if (node != null) {
-                return node
-            }
-        }
-
-        for (i in 0 until windowInfo.childCount) {
-            val child = windowInfo.getChild(i)
-            if (child != null) {
-                if (child.isFocused) {
-                    println("Focused child $child")
-                }
-
-                recurseWindowInfo(child)
-            }
-        }
-
-        return null
-    }
-
-    private fun recurseNodeInfo(nodeInfo: AccessibilityNodeInfo): AccessibilityNodeInfo? {
-        for (i in 0 until nodeInfo.childCount) {
-            val child = nodeInfo.getChild(i)
-            if (child != null) {
-                if (child.isFocused) {
-                    return child
-                }
-
-                recurseNodeInfo(child)
-            }
-        }
-
-        return null
     }
 
     override fun onInterrupt() {

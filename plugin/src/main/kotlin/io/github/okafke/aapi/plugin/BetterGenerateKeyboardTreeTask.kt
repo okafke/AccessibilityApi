@@ -2,13 +2,14 @@ package io.github.okafke.aapi.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import java.io.File
 import java.util.function.BiConsumer
 import java.util.function.Consumer
+import javax.inject.Inject
 
-open class BetterGenerateKeyboardTreeTask: DefaultTask() {
+open class BetterGenerateKeyboardTreeTask @Inject constructor(private val ctx: InstrumentationContext): DefaultTask() {
     companion object {
-        const val KEY_BOARD_CLASS = "io.github.okafke.aapi.keyboard.Keyboard"
+        // TODO: if we could include the subproject we could the actual class
+        const val KEY_BOARD_CLASS = "io.github.okafke.aapi.client.keyboard.Keyboard"
         const val KEYS = "abcdefghijklmnopqrstuvwxyz"
         const val NUMBERS = "1234567890"
     }
@@ -32,8 +33,6 @@ open class BetterGenerateKeyboardTreeTask: DefaultTask() {
             val moreCategory = moreTree(true)
             val tree = buildTree("lowercase", degree, keyCategory, numCategory, moreCategory)
 
-            val extension = project.extensions.create("aapi", AApiExtension::class.java)
-            val ctx = InstrumentationContext(extension.getDir(project), extension.getCacheDir(project))
             ctx.writeTree(tree, degree)
 
             val moreCategoryUpper = moreTree(false)

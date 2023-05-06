@@ -2,11 +2,11 @@ package io.github.okafke.aapi.plugin
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import java.io.File
+import javax.inject.Inject
 
-open class GenerateKeyboardTreeTask: DefaultTask() {
+open class GenerateKeyboardTreeTask @Inject constructor(private val ctx: InstrumentationContext): DefaultTask() {
     companion object {
-        const val KEY_BOARD_CLASS = "io.github.okafke.aapi.keyboard.Keyboard"
+        const val KEY_BOARD_CLASS = "io.github.okafke.aapi.client.keyboard.Keyboard"
         const val KEYS = "abcdefghijklmnopqrstuvwxyz1234567890"
     }
 
@@ -46,8 +46,6 @@ open class GenerateKeyboardTreeTask: DefaultTask() {
             lowerTree.found["$char"] = action
         }
 
-        val extension = project.extensions.create("aapi", AApiExtension::class.java)
-        val ctx = InstrumentationContext(extension.getDir(project), extension.getCacheDir(project))
         ctx.writeTree(lowerTree)
         ctx.writeTree(upperTree)
     }

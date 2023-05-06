@@ -118,20 +118,25 @@ abstract class AnnotationProcessingClassVisitorFactory :
     }
 
     private fun injectTree(tree: Tree, cn: ClassNode) {
+        var found = false
         for (method in cn.methods) {
             // Activity onCreated
             if (method.name == "onCreate" && method.desc == "(Landroid/os/Bundle;)V"
                 // Fragment onViewCreated
-                || method.name == "onViewCreated" && method.desc == "(Landroid/view/View;Landroid/os/Bundle;)V") {
+                || method.name == "onViewCreated" && method.desc == "(Landroid/view/View;Landroid/os/Bundle;)V"
+                || method.name == "onResume" && method.desc == "()V"
+                || method.name == "onResumeFragments" && method.desc == "()V") {
                 injectTree(tree, cn, method)
-                return
+                found = true
             }
         }
 
-        for (method in cn.methods) {
-            // Activity onCreated
-            if (method.name == "<init>" && method.desc.endsWith(")V")) {
-                injectTree(tree, cn, method)
+        if (!found) {
+            for (method in cn.methods) {
+                // Activity onCreated
+                if (method.name == "<init>" && method.desc.endsWith(")V")) {
+                    injectTree(tree, cn, method)
+                }
             }
         }
     }
@@ -139,7 +144,8 @@ abstract class AnnotationProcessingClassVisitorFactory :
     private fun injectTree(tree: Tree, cn: ClassNode, method: MethodNode) {
         val il = InsnList()
         il.add(LdcInsnNode(tree.name))
-        il.add(MethodInsnNode(INVOKESTATIC, "me/okafke/accessibilityapi/json/ServiceHolder", "setTree", "(Ljava/lang/String;)V"))
+        // TODO: sadly it does not seem possible to include the :client project, so I need to use a String here instead of Type.getInternalName
+        il.add(MethodInsnNode(INVOKESTATIC, "io/github/okafke/aapi/client/json/ServiceHolder", "setTree", "(Ljava/lang/String;)V"))
         injectAtReturns(method.instructions, il)
         println("Injected Tree ${tree.name} into ${cn.name} ${method.name}")
     }

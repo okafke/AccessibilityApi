@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import io.github.okafke.aapi.aidl.BuildConfig
 import io.github.okafke.aapi.aidl.INavigationTreeService
 import io.github.okafke.aapi.client.tree.AbstractNode
 import java.util.function.Consumer
@@ -17,8 +18,10 @@ class ClientService(val ctx: Context) {
 
     private val lock: Any = Object()
     private val callbackHandler = CallbackHandler(ctx)
+    var wasConnected = false
     private val connection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            wasConnected = true
             println("Service is connected!")
             val binding = INavigationTreeService.Stub.asInterface(service)
             binding.registerListener(callbackHandler)

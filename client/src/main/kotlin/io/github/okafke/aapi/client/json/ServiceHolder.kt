@@ -20,15 +20,23 @@ object ServiceHolder {
         jsonService = JsonTreeService(clientService)
     }
 
+    fun refreshConnection(ctx: Context) {
+
+    }
+
+    fun isInitialized(): Boolean {
+        return this::clientService.isInitialized
+    }
+
     @JvmStatic
     @Suppress("unused")
     fun setTree(name: String) {
-        if (!this::clientService.isInitialized) {
+        if (!this::clientService.isInitialized || !this.clientService.isConnected() && this.clientService.wasConnected) {
             val adapter = InputStreamReader(ServiceHolder.javaClass.classLoader?.getResourceAsStream("contextprovider.json")).use {
-                GSON.fromJson(it, io.github.okafke.aapi.client.json.CallbackAdapter::class.java)
+                GSON.fromJson(it, CallbackAdapter::class.java)
             }
 
-            val contextProvider = io.github.okafke.aapi.client.json.CallbackFactory().create(adapter)
+            val contextProvider = CallbackFactory().create(adapter)
             init(contextProvider.get() as Context)
         }
 

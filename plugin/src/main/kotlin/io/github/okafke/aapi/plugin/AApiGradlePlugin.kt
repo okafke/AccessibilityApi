@@ -14,14 +14,14 @@ class AApiGradlePlugin : Plugin<Project> {
         val cacheDir = extension.getCacheDir(project)
         dir.mkdirs()
         cacheDir.mkdirs()
-        project.tasks.register("generateKeyboardTree", GenerateKeyboardTreeTask::class.java)
-        project.tasks.register("generateKeyboardTreeBetter", BetterGenerateKeyboardTreeTask::class.java)
+        val context = InstrumentationContext(dir, cacheDir)
+        project.tasks.register("generateKeyboardTree", GenerateKeyboardTreeTask::class.java, context)
+        project.tasks.register("generateKeyboardTreeBetter", BetterGenerateKeyboardTreeTask::class.java, context)
         project.pluginManager.withPlugin("com.android.application") {
             val androidComponentsExtension =
                 project.extensions.getByType(AndroidComponentsExtension::class.java)
             println("AndroidComponentsExtension found successfuly")
             androidComponentsExtension.onVariants { variant ->
-                val context = InstrumentationContext(dir, cacheDir)
                 variant.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_METHODS)
                 variant.instrumentation.transformClassesWith(
                     AnnotationProcessingClassVisitorFactory::class.java,

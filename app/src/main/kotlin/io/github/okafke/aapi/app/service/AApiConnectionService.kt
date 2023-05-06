@@ -8,7 +8,12 @@ import io.github.okafke.aapi.app.aidl.NavigationTreeService
 import io.github.okafke.aapi.app.util.AApiUtil
 
 class AApiConnectionService : Service() {
+    init {
+        println("AApiConnectionService created")
+    }
+
     override fun onBind(intent: Intent): IBinder {
+        println("AApiConnectionService.onBind called!")
         NavigationTreeService.inputAmount = AApiUtil.getInputs(applicationContext)
         return DelegateNavigationTreeService()
     }
