@@ -5,7 +5,7 @@ import java.io.*
 import java.nio.file.Files
 import java.util.concurrent.ConcurrentHashMap
 
-class InstrumentationContext(private val directory: File): Serializable {
+class InstrumentationContext(private val dir: File, private val cacheDir: File): Serializable {
     val actions = HashMap<String, Action>()
     private val categories = HashMap<String, Category>()
     private val trees = ConcurrentHashMap<String, Tree>()
@@ -57,7 +57,7 @@ class InstrumentationContext(private val directory: File): Serializable {
     fun writeTree(tree: Tree) {
         println("Resolving Tree $tree")
         val array = tree.toJson()
-        Files.newBufferedWriter(directory.toPath().resolve("${tree.name}.json")).use { br ->
+        Files.newBufferedWriter(dir.toPath().resolve("${tree.name}.json")).use { br ->
             Constants.GSON.toJson(array, br)
         }
 
@@ -69,7 +69,7 @@ class InstrumentationContext(private val directory: File): Serializable {
     }
 
     fun writeTree(tree: Tree, degree: Int) {
-        Files.newBufferedWriter(directory.toPath().resolve("${tree.name}_$degree.json")).use { br ->
+        Files.newBufferedWriter(dir.toPath().resolve("${tree.name}_$degree.json")).use { br ->
             Constants.GSON.toJson(tree.toJson(degree), br)
         }
     }
@@ -101,7 +101,7 @@ class InstrumentationContext(private val directory: File): Serializable {
     // TODO: allow the user to specify other caches which he can use when he imports another library
     // TODO: this could be problematic if multiple processes try to access the cache?
     private fun updateCache() {
-        val cache = File(directory, "cache.json")
+        val cache = File(cacheDir, "cache.json")
         if (!cache.exists()) {
             cache.createNewFile()
             FileOutputStream(cache).use {

@@ -10,7 +10,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     version = '1.0.0'
-    group = "io.github.okafke.aapi.${project.name}"
+    group = "io.github.okafke.aapi"
 
     if (project.name in ['client', 'app', 'aidl', 'client-commons']) {
         afterEvaluate {

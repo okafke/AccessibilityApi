@@ -10,8 +10,11 @@ import java.io.File
 @Suppress("unused")
 class AApiGradlePlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        val dir = File(project.rootProject.rootDir, "tree")
+        val extension = project.extensions.create("aapi", AApiExtension::class.java)
+        val dir = extension.getDir().map { d -> d.asFile }.orElse(File(project.rootProject.rootDir, "build/tree")).get()
+        val cacheDir = extension.getCacheDir().map { d -> d.asFile }.orElse(File(project.rootProject.rootDir, "build/tree")).get()
         dir.mkdirs()
+        cacheDir.mkdirs()
         project.tasks.register("generateKeyboardTree", GenerateKeyboardTreeTask::class.java)
         project.tasks.register("generateKeyboardTreeBetter", BetterGenerateKeyboardTreeTask::class.java)
         project.pluginManager.withPlugin("com.android.application") {
@@ -19,13 +22,14 @@ class AApiGradlePlugin : Plugin<Project> {
                 project.extensions.getByType(AndroidComponentsExtension::class.java)
             println("AndroidComponentsExtension found successfuly")
             androidComponentsExtension.onVariants { variant ->
-                val context = InstrumentationContext(dir)
+                val context = InstrumentationContext(dir, cacheDir)
                 variant.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_INSTRUMENTED_METHODS)
                 variant.instrumentation.transformClassesWith(
                     AnnotationProcessingClassVisitorFactory::class.java,
                     InstrumentationScope.ALL // for now, ALL would be better
                 ) { params ->
                     params.dir.set(dir)
+                    params.cacheDir.set(dir)
                     params.context.set(context)
                 }
             }

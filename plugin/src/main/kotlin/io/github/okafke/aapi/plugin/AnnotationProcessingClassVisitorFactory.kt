@@ -23,6 +23,8 @@ abstract class AnnotationProcessingClassVisitorFactory :
         @get:Internal
         val dir: Property<File>
         @get:Internal
+        val cacheDir: Property<File>
+        @get:Internal
         val context: Property<InstrumentationContext>
     }
 
