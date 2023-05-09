@@ -1,12 +1,15 @@
 package io.github.okafke.aapi.app.service
 
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.accessibilityservice.InputMethod
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.hardware.usb.UsbManager
 import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
+import android.view.KeyEvent.ACTION_DOWN
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
@@ -142,9 +145,17 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
         }
     }
 
-    override fun onKeyEvent(event: KeyEvent?): Boolean {
-        print("onKeyEvent: $event")
-        return super.onKeyEvent(event)
+    override fun onKeyEvent(event: KeyEvent): Boolean {
+        println("onKeyEvent: $event")
+        if (event.action == ACTION_DOWN) {
+            overlay.overlay?.overlayElements?.forEach {
+                if (it.keyCode == event.keyCode) {
+                    inputService.onInput(it.input)
+                }
+            }
+        }
+
+        return true
     }
 
     override fun onCreateInputMethod(): InputMethod {

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
@@ -44,7 +45,7 @@ class ButtonService {
                             viewTreeObserver.removeOnGlobalLayoutListener(this)
                         }
 
-                        positionButton(index, button, overlay)
+                        positionButton(index, button, overlay, overlayElement)
                     }
                 })
             }
@@ -80,7 +81,7 @@ class ButtonService {
                         viewTreeObserver.removeOnGlobalLayoutListener(this)
                     }
 
-                    positionButton(7, button, overlay)
+                    positionButton(7, button, overlay, null)
                 }
             })
         }
@@ -93,7 +94,7 @@ class ButtonService {
         overlay.addView(button)
     }
 
-    fun positionButton(index: Int, button: View, overlay: View) {
+    fun positionButton(index: Int, button: View, overlay: View, overlayElement: OverlayElement?) {
         if (!RANGE.contains(index)) {
             throw IndexOutOfBoundsException("$index not in 0-7")
         }
@@ -105,34 +106,42 @@ class ButtonService {
                 val preference = PreferenceManager.getDefaultSharedPreferences(overlay.context)
                 val y = preference.getInt(overlay.context.getString(R.string.camera_y_key), 50)
                 button.y = y.toFloat()
+                overlayElement?.keyCode = KeyEvent.KEYCODE_W
             }
             1 -> { // middle left
                 button.x = 0.0f
                 button.y = overlay.height / 2.0f - button.height / 2.0f
+                overlayElement?.keyCode = KeyEvent.KEYCODE_A
             }
             2 -> { // middle bottom
                 button.x = overlay.width / 2.0f - button.width / 2.0f
                 button.y = overlay.height - button.height.toFloat()
+                overlayElement?.keyCode = KeyEvent.KEYCODE_S
             }
             3 -> { // middle right
                 button.x = overlay.width.toFloat() - button.width
                 button.y = overlay.height / 2.0f - button.height / 2.0f
+                overlayElement?.keyCode = KeyEvent.KEYCODE_D
             }
             4 -> { // top left
                 button.x = 0.0f
                 button.y = 0.0f
+                overlayElement?.keyCode = KeyEvent.KEYCODE_Q
             }
             5 -> { // bottom left
                 button.x = 0.0f
                 button.y = overlay.height.toFloat() - button.height
+                overlayElement?.keyCode = KeyEvent.KEYCODE_Y
             }
             6 -> { // bottom right
                 button.x = overlay.width - button.width.toFloat()
                 button.y = overlay.height.toFloat() - button.height
+                overlayElement?.keyCode = KeyEvent.KEYCODE_X
             }
             7 -> { // top right
                 button.x = overlay.width.toFloat() - button.width.toFloat()
                 button.y = 0.0f
+                overlayElement?.keyCode = KeyEvent.KEYCODE_E
             }
         }
     }
