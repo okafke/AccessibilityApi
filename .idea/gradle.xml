@@ -12,10 +12,12 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/aidl" />
             <option value="$PROJECT_DIR$/annotations" />
+            <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/client-commons" />
             <option value="$PROJECT_DIR$/instances" />
+            <option value="$PROJECT_DIR$/keyboard" />
             <option value="$PROJECT_DIR$/plugin" />
           </set>
         </option>

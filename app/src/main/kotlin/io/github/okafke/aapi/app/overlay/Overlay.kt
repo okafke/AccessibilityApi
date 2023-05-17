@@ -6,7 +6,6 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.preference.PreferenceManager
 import io.github.okafke.aapi.app.R
 
@@ -33,12 +32,12 @@ class Overlay(ctx: Context): RelativeLayout(ctx) {
     }
 
     override fun onGenericMotionEvent(event: MotionEvent?): Boolean {
-        Toast.makeText(context, "onGenericMotionEvent: $event", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "onGenericMotionEvent: $event", Toast.LENGTH_SHORT).show()
         return super.onGenericMotionEvent(event)
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Toast.makeText(context, "onKeyDown: $keyCode $event", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, "onKeyDown: $keyCode $event", Toast.LENGTH_SHORT).show()
         return super.onKeyDown(keyCode, event)
     }
 

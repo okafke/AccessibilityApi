@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="io.github.okafke.aapi.app">
 
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <!--<queries> We instead use, QUERY_ALL_PACKAGES, because we dynamically want to start other apps
+        <package android:name="code.name.monkey.retromusic.debug" />
+    </queries>-->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -50,9 +56,5 @@
                 android:resource="@xml/accessibility_api_service" />
         </service>
     </application>
-
-    <queries>
-        <package android:name="code.name.monkey.retromusic.debug" />
-    </queries>
 
 </manifest>

@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager
 import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.input.InputService
 import io.github.okafke.aapi.app.service.AApiOverlayService
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 class ButtonService {
@@ -30,10 +31,9 @@ class ButtonService {
             val lp = WindowManager.LayoutParams()
             lp.width = WindowManager.LayoutParams.WRAP_CONTENT
             lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-            button.text
             button.layoutParams = lp
             button.isAllCaps = false
-            button.text = "B$index"
+            button.text = "$input"
 
             val overlayElement = OverlayElement(button, input)
             elements.add(overlayElement)
@@ -89,6 +89,48 @@ class ButtonService {
         button.setOnClickListener {
             println("Off button clicked")
             context.disableSelf()
+        }
+
+        overlay.addView(button)
+    }
+
+    fun addViewInputsButton(context: AApiOverlayService, overlay: Overlay) {
+        val button = Button(context)
+        val lp = WindowManager.LayoutParams()
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        button.layoutParams = lp
+        button.isAllCaps = false
+        button.text = "Inputs"
+        //button.background.colorFilter = LightingColorFilter(0xFFFFFFFF.toInt(), 0xFFAA0000.toInt())
+        button.background.colorFilter = PorterDuffColorFilter(0xFF00FFFF.toInt(), PorterDuff.Mode.MULTIPLY)
+        button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.gamepad, 0, 0)
+
+        val viewTreeObserver = overlay.viewTreeObserver
+        if (viewTreeObserver.isAlive) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (viewTreeObserver.isAlive) {
+                        viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+
+                    positionButton(6, button, overlay, null)
+                }
+            })
+        }
+
+        val isShowingInputs = AtomicBoolean()
+        button.setOnClickListener {
+            isShowingInputs.set(!isShowingInputs.get())
+            if (isShowingInputs.get()) {
+                overlay.overlayElements.forEach { element ->
+                    OverlayUpdateService.update(context, element, element.input.getAsNode(), false)
+                }
+            } else {
+                overlay.overlayElements.forEach { element ->
+                    OverlayUpdateService.update(context, element, element.node, false)
+                }
+            }
         }
 
         overlay.addView(button)

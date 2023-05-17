@@ -19,6 +19,12 @@
     <string name="off_action_key">off_action</string>
     <string name="off_action">Add Off Action</string>
 
+    <string name="off_button_key">off_button</string>
+    <string name="off_button">Add Off Button</string>
+
+    <string name="input_button_key">input_button</string>
+    <string name="input_button">Add Input Button</string>
+
     <string name="camera_y_key">camera_y</string>
     <string name="camera_y">Camera Y</string>
 </resources>

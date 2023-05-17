@@ -16,11 +16,16 @@ class InputServiceImpl(ctx: Context,
     init {
         val numOfInputs = AApiUtil.getInputs(ctx, false)
         for (i in 0 until numOfInputs) {
-            inputs.add(Input(i, "Input$i"))
+            inputs.add(NavigationTreeService.getInput(ctx, i))
         }
     }
 
-    override fun onInput(input: Input) {
+    override fun onInput(input: Input?) {
+        if (input == null) {
+            println("Input was null!!!")
+            return
+        }
+
         val newNode = tree.currentNode.input2Child[input]
         if (newNode != null) {
             if (newNode.isAction()) {

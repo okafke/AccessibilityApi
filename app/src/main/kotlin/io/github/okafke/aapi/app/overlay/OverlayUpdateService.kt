@@ -13,38 +13,48 @@ class OverlayUpdateService(private val context: Context,
         threadHandler.post {
             val overlay = overlayHolder.overlay ?: return@post
             overlay.overlayElements.forEach { element ->
-                val button = element.button
                 val child = node.input2Child[element.input]
-                if (child != null) {
-                    button.text = child.name
-                    if (child.hasDrawables()) {
-                        val d0: Drawable? = loadDrawable(child, 0)
-                        val d1: Drawable? = loadDrawable(child, 1)
-                        val d2: Drawable? = loadDrawable(child, 2)
-                        val d3: Drawable? = loadDrawable(child, 3)
-
-                        button.setCompoundDrawablesWithIntrinsicBounds(d2, d0, d3, d1)
-                    } else {
-                        button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-                    }
-                } else {
-                    button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
-                    button.text = ""
-                }
+                update(context, element, child)
             }
         }
     }
 
-    private fun loadDrawable(node: Node, index: Int): Drawable? {
-        if (index >= node.drawableIds.size || index >= node.drawablePackageNames.size) {
-            return null
+    companion object {
+        fun update(context: Context, element: OverlayElement, child: Node?, setNode: Boolean = true) {
+            val button = element.button
+            if (setNode) {
+                element.node = child
+            }
+
+            if (child != null) {
+                button.text = child.name
+                if (child.hasDrawables()) {
+                    val d0: Drawable? = loadDrawable(context, child, 0)
+                    val d1: Drawable? = loadDrawable(context, child, 1)
+                    val d2: Drawable? = loadDrawable(context, child, 2)
+                    val d3: Drawable? = loadDrawable(context, child, 3)
+
+                    button.setCompoundDrawablesWithIntrinsicBounds(d2, d0, d3, d1)
+                } else {
+                    button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                }
+            } else {
+                button.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+                button.text = ""
+            }
         }
 
-        return context.packageManager
-            ?.getResourcesForApplication(node.drawablePackageNames[index]!!)
-            ?.let {
-                ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
+        private fun loadDrawable(context: Context, node: Node, index: Int): Drawable? {
+            if (index >= node.drawableIds.size || index >= node.drawablePackageNames.size) {
+                return null
             }
+
+            return context.packageManager
+                ?.getResourcesForApplication(node.drawablePackageNames[index]!!)
+                ?.let {
+                    ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
+                }
+        }
     }
 
 }

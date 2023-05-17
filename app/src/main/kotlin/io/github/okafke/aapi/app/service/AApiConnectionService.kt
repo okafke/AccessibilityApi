@@ -13,8 +13,10 @@ class AApiConnectionService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder {
+        print(intent)
         println("AApiConnectionService.onBind called!")
         NavigationTreeService.inputAmount = AApiUtil.getInputs(applicationContext)
+        NavigationTreeService.init(applicationContext)
         return DelegateNavigationTreeService()
     }
 

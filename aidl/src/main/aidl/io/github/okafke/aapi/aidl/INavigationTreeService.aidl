@@ -8,12 +8,20 @@ import io.github.okafke.aapi.aidl.Node;
 interface INavigationTreeService {
     int getInputs();
 
-    void setNavigationTree(inout Node[] tree);
+    void setNavigationTree(in Node[] tree);
 
     long registerListener(INavigationTreeListener listener);
 
     void unregisterListener(long id);
 
     IKeyboard getKeyboard();
+
+    // --- InputAPI
+
+    void registerInput(int id, in Node node);
+
+    void unregisterInput(int id, long nodeId);
+
+    void onInput(int id);
 
 }

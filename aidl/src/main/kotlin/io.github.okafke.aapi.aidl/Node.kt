@@ -97,4 +97,29 @@ open class Node(
         }
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Node) return false
+
+        if (name != other.name) return false
+        if (!drawableIds.contentEquals(other.drawableIds)) return false
+        if (!drawablePackageNames.contentEquals(other.drawablePackageNames)) return false
+        if (description != other.description) return false
+        if (id != other.id) return false
+        if (!children.contentEquals(other.children)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + drawableIds.contentHashCode()
+        result = 31 * result + drawablePackageNames.contentHashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + id.hashCode()
+        result = 31 * result + children.contentHashCode()
+        return result
+    }
+
+
 }

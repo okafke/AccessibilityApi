@@ -1,21 +1,15 @@
 package io.github.okafke.aapi.app.service
 
 import android.accessibilityservice.AccessibilityService
-import android.accessibilityservice.AccessibilityServiceInfo
 import android.accessibilityservice.InputMethod
 import android.content.Intent
-import android.content.pm.ServiceInfo
-import android.hardware.usb.UsbManager
 import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
 import android.view.KeyEvent.ACTION_DOWN
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
-import android.view.accessibility.AccessibilityNodeInfo
-import android.view.accessibility.AccessibilityWindowInfo
 import androidx.preference.PreferenceManager
-import io.github.okafke.aapi.aidl.INavigationTreeService
 import io.github.okafke.aapi.aidl.Node
 import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.aidl.NavigationTreeService
@@ -36,13 +30,13 @@ import io.github.okafke.aapi.app.util.isEnabled
 
 
 class AApiOverlayService : AccessibilityService(), TreeListener {
-    private val threadHandler = Handler(Looper.getMainLooper())
-    private val treeHolder = TreeHolder(DefaultTreeMapper())
-    private val buttonService = ButtonService()
-    private val overlay = Overlay.Holder()
+    val threadHandler = Handler(Looper.getMainLooper())
+    val treeHolder = TreeHolder(DefaultTreeMapper())
+    val buttonService = ButtonService()
+    val overlay = Overlay.Holder()
 
-    private lateinit var overlayUpdateService: OverlayUpdateService
-    private lateinit var inputService: InputService
+    lateinit var overlayUpdateService: OverlayUpdateService
+    lateinit var inputService: InputService
 
     private var inAllowDeny = false
 
@@ -141,6 +135,7 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
 
             overlay.overlay = Overlay(this)
             buttonService.addOffButton(this, overlay.overlay!!)
+            buttonService.addViewInputsButton(this, overlay.overlay!!)
             buttonService.addButtons(this, inputService, overlay.overlay!!)
         }
     }

@@ -4,6 +4,7 @@ plugins {
     id 'com.android.library' version '7.4.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
     id 'maven-publish'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0' apply false
 }
 
 subprojects {
@@ -12,7 +13,7 @@ subprojects {
     version = '1.0.11'
     group = "io.github.okafke.aapi"
 
-    if (project.name in ['client', 'app', 'aidl', 'client-commons']) {
+    if (project.name in ['client', 'app', 'aidl', 'client-commons', 'keyboard']) {
         afterEvaluate {
             android {
                 publishing {

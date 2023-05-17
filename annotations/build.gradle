@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
 
+// TODO: annotations could become api too
 group = 'io.github.okafke.aapi.annotations'
 
 java {

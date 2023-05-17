@@ -27,4 +27,16 @@ class DelegateNavigationTreeService: INavigationTreeService.Stub() {
         return NavigationTreeService.keyboard
     }
 
+    override fun registerInput(id: Int, node: Node) {
+        NavigationTreeService.registerInput(id, node)
+    }
+
+    override fun unregisterInput(id: Int, nodeId: Long) {
+        NavigationTreeService.unregisterInput(id, nodeId)
+    }
+
+    override fun onInput(id: Int) {
+        NavigationTreeService.onInput(id)
+    }
+
 }
