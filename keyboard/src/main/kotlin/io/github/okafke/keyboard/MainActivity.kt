@@ -1,22 +1,16 @@
-package io.github.okafke.aapi.app
+package io.github.okafke.keyboard
 
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import io.github.okafke.aapi.app.R
-import io.github.okafke.aapi.app.aidl.NavigationTreeService
-import io.github.okafke.aapi.app.util.FileHelper
-
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+        setContentView(R.layout.keyboard_settings_actitivty)
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()
@@ -35,14 +29,6 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                 true
             }
-
-            val clearData = findPreference<Preference>(getString(R.string.clear_data_key))
-            clearData!!.setOnPreferenceClickListener {
-                FileHelper.deleteFile(requireContext(), NavigationTreeService.FILE_NAME)
-                FileHelper.deleteFile(requireContext(), AppManager.FILE_NAME)
-                true
-            }
         }
     }
-
 }

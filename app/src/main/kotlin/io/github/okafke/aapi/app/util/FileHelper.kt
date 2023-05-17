@@ -44,4 +44,10 @@ object FileHelper {
         return file.exists()
     }
 
+    fun deleteFile(context: Context, fileName: String): Boolean {
+        val path: String = context.filesDir.absolutePath + "/" + fileName
+        val file = File(path)
+        return file.delete()
+    }
+
 }

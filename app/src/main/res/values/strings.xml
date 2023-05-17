@@ -10,6 +10,9 @@
     <string name="goto_accessibility_key">goto_accessibility_settings</string>
     <string name="goto_accessibility_settings">Go to Accessibility Settings</string>
 
+    <string name="clear_data_key">clear_data</string>
+    <string name="clear_data">Clear Data</string>
+
     <string name="overlay_passthrough_key">overlay_passthrough</string>
     <string name="overlay_passthrough">Make Overlay passthrough</string>
 

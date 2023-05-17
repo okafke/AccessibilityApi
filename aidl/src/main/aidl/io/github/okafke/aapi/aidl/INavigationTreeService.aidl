@@ -24,4 +24,6 @@ interface INavigationTreeService {
 
     void onInput(int id);
 
+    void registerApp(String packageName, in Node data);
+
 }

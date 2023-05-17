@@ -1,5 +1,6 @@
-package io.github.okafke.aapi.app.util
+package io.github.okafke.aapi.util
 
+import io.github.okafke.aapi.app.util.index
 import org.junit.Assert
 import org.junit.Test
 

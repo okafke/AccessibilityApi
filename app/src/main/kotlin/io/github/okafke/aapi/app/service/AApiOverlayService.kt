@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import androidx.preference.PreferenceManager
 import io.github.okafke.aapi.aidl.Node
+import io.github.okafke.aapi.app.AppManager
 import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.aidl.NavigationTreeService
 import io.github.okafke.aapi.app.input.InputService
@@ -79,7 +80,10 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
         }
 
         addView()
-        val node = Node(
+
+        AppManager.init(applicationContext)
+        onNewTree(AppManager.getTree(inputService, DefaultTreeMapper()))
+        /*val node = Node(
             "Music Player",
             arrayOf(R.drawable.baseline_music_note_24),
             arrayOf(applicationContext.packageName),
@@ -91,9 +95,9 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
             if (musicIntent != null) {
                 startActivity(musicIntent)
             }
-        }
+        }*/
+        // onNewTree(arrayOf(node))
 
-        onNewTree(arrayOf(node))
         if (!NavigationTreeService.hasListener(this)) {
             NavigationTreeService.addLocalListener(this)
         }

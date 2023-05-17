@@ -14,6 +14,9 @@
             android:title="@string/goto_accessibility_settings"
             android:key="@string/goto_accessibility_key" />
 
+        <Preference
+            android:title="@string/clear_data"
+            android:key="@string/clear_data_key" />
 
         <CheckBoxPreference
             android:title="@string/overlay_passthrough"

@@ -4,11 +4,16 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.os.IBinder
+import android.util.Log
 import io.github.okafke.aapi.aidl.BuildConfig
 import io.github.okafke.aapi.aidl.INavigationTreeService
+import io.github.okafke.aapi.aidl.Node
 import io.github.okafke.aapi.client.tree.AbstractNode
 import java.util.function.Consumer
+
 
 class ClientService(val ctx: Context) {
     companion object {
@@ -47,7 +52,31 @@ class ClientService(val ctx: Context) {
     @Volatile
     var navigationService: INavigationTreeService? = null
     @Volatile
-    private var pendingAction: Runnable? = null
+    private var pendingAction: Runnable? = Runnable {
+        whenAvailable { api ->
+            run {
+                api.registerApp(ctx.packageName, Node(
+                    getAppLabel(ctx),
+                    if (ctx.applicationInfo.icon == 0) emptyArray() else arrayOf(ctx.applicationInfo.icon),
+                    if (ctx.applicationInfo.icon == 0) emptyArray() else arrayOf(ctx.packageName),
+                    "Starts the ${ctx.packageName} app",
+                    0, emptyArray()
+                ))
+            }
+        }
+    }
+
+    fun getAppLabel(context: Context): String {
+        var applicationInfo: ApplicationInfo? = null
+        try {
+            applicationInfo = context.packageManager.getApplicationInfo(context.applicationInfo.packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            Log.d("TAG", "The package with the given name cannot be found on the system.")
+        }
+        return (if (applicationInfo != null) {
+            context.packageManager.getApplicationLabel(applicationInfo)
+        } else context.packageName).toString()
+    }
 
     init {
         println("New PackageName: ${ctx.packageName}")

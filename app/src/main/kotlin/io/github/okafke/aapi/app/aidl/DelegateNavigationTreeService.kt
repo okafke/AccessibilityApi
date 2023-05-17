@@ -39,4 +39,8 @@ class DelegateNavigationTreeService: INavigationTreeService.Stub() {
         NavigationTreeService.onInput(id)
     }
 
+    override fun registerApp(packageName: String, data: Node) {
+        NavigationTreeService.registerApp(packageName, data)
+    }
+
 }

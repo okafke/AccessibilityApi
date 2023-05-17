@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/client" />
             <option value="$PROJECT_DIR$/client-commons" />
             <option value="$PROJECT_DIR$/instances" />
+            <option value="$PROJECT_DIR$/json" />
             <option value="$PROJECT_DIR$/keyboard" />
             <option value="$PROJECT_DIR$/plugin" />
           </set>

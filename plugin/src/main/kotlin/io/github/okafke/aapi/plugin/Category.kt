@@ -5,6 +5,7 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.google.gson.annotations.SerializedName
+import io.github.okafke.json.Exclude
 import java.util.*
 import java.util.stream.Collectors
 import kotlin.collections.ArrayList
@@ -24,7 +25,7 @@ data class Category(
     @SerializedName("children") override val children: MutableSet<String>
 ): java.io.Serializable, Node, SortsFound {
     @Suppress("SENSELESS_COMPARISON")
-    @Exclude override var found: MutableMap<String, Node> = LinkedHashMap()
+    @field:Exclude override var found: MutableMap<String, Node> = LinkedHashMap()
         // Gson seems to instantiate this in a way that not even by lazy works and this is null
         get() {
             if (field == null) {

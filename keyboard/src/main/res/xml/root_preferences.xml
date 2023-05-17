@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory app:title="@string/messages_header">
+        <Preference
+            android:title="@string/goto_accessibility_settings"
+            android:key="@string/goto_accessibility_key" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -3,12 +3,13 @@ package io.github.okafke.aapi.app.aidl
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.RemoteException
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.github.okafke.aapi.aidl.*
+import io.github.okafke.aapi.app.AppManager
 import io.github.okafke.aapi.app.overlay.TreeListener
 import io.github.okafke.aapi.app.service.AApiOverlayService
 import io.github.okafke.aapi.app.util.FileHelper
+import io.github.okafke.json.Exclude
 import java.lang.reflect.Type
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArrayList
@@ -22,7 +23,7 @@ object NavigationTreeService: INavigationTreeService.Stub() {
     private val id = AtomicLong()
     var inputAmount: Int = 2
 
-    private const val FILE_NAME = "inputmap.json"
+    const val FILE_NAME = "inputmap.json"
     private val mapType: Type = object: TypeToken<Map<Int?, Input>>() {}.type
     private val inputs = ConcurrentHashMap<Int, Input>()
     private val initialized = AtomicBoolean()
@@ -30,13 +31,14 @@ object NavigationTreeService: INavigationTreeService.Stub() {
     private lateinit var context: Context
 
     fun init(context: Context) {
+        AppManager.init(context)
         synchronized(initialized) {
             if (!initialized.getAndSet(true)) {
                 this.context = context
                 try {
                     if (FileHelper.isFilePresent(context, FILE_NAME)) {
                         val json = FileHelper.read(context, FILE_NAME)
-                        val map: Map<Int, Input> = Gson().fromJson(json, mapType)
+                        val map: Map<Int, Input> = Exclude.GSON.fromJson(json, mapType)
                         inputs.putAll(map)
                     }
                 } catch (e: java.lang.Exception) {
@@ -64,13 +66,17 @@ object NavigationTreeService: INavigationTreeService.Stub() {
 
     private fun saveInputs() {
         synchronized(initialized) {
-            val json = Gson().toJson(inputs, mapType)
+            val json = Exclude.GSON.toJson(inputs, mapType)
             FileHelper.create(context, FILE_NAME, json)
         }
     }
 
     override fun onInput(id: Int) {
         AApiOverlayService.instance?.inputService?.onInput(inputs[id])
+    }
+
+    override fun registerApp(packageName: String, data: Node) {
+        AppManager.addApp(packageName, data)
     }
 
     fun getInput(context: Context, id: Int): Input {
