@@ -10,16 +10,13 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.Button
-import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
-import io.github.okafke.aapi.aidl.Node
 import io.github.okafke.aapi.app.AppManager
 import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.input.InputService
 import io.github.okafke.aapi.app.service.AApiOverlayService
 import io.github.okafke.aapi.app.tree.DefaultTreeMapper
 import java.util.concurrent.atomic.AtomicBoolean
-import java.util.concurrent.atomic.AtomicReference
 
 
 class ButtonService {
@@ -45,7 +42,8 @@ class ButtonService {
             elements.add(overlayElement)
 
             if (viewTreeObserver.isAlive) {
-                viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                viewTreeObserver.addOnGlobalLayoutListener(object :
+                    ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         if (viewTreeObserver.isAlive) {
                             viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -102,7 +100,15 @@ class ButtonService {
         }
     }
 
-    fun addButton(context: AApiOverlayService, overlay: Overlay, name: String, color: Long, position: Int, drawable: Int, listener: View.OnClickListener) {
+    private fun addButton(
+        context: AApiOverlayService,
+        overlay: Overlay,
+        name: String,
+        color: Long,
+        position: Int,
+        drawable: Int,
+        listener: View.OnClickListener
+    ) {
         val button = Button(context)
         val lp = WindowManager.LayoutParams()
         lp.width = WindowManager.LayoutParams.WRAP_CONTENT
@@ -111,12 +117,14 @@ class ButtonService {
         button.isAllCaps = false
         button.text = name
         //button.background.colorFilter = LightingColorFilter(0xFFFFFFFF.toInt(), 0xFFAA0000.toInt())
-        button.background.colorFilter = PorterDuffColorFilter(color.toInt(), PorterDuff.Mode.MULTIPLY)
+        button.background.colorFilter =
+            PorterDuffColorFilter(color.toInt(), PorterDuff.Mode.MULTIPLY)
         button.setCompoundDrawablesWithIntrinsicBounds(0, drawable, 0, 0)
 
         val viewTreeObserver = overlay.viewTreeObserver
         if (viewTreeObserver.isAlive) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     if (viewTreeObserver.isAlive) {
                         viewTreeObserver.removeOnGlobalLayoutListener(this)

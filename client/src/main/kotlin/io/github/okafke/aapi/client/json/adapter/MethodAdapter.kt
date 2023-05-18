@@ -1,6 +1,5 @@
 package io.github.okafke.aapi.client.json.adapter
 
-import io.github.okafke.aapi.client.json.instances.Instances
 import java.lang.reflect.Method
 import java.util.function.Supplier
 

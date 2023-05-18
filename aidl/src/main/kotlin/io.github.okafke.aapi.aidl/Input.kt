@@ -2,7 +2,6 @@ package io.github.okafke.aapi.aidl
 
 import java.util.*
 import java.util.stream.Collectors
-import kotlin.collections.ArrayList
 
 data class Input(val index: Int,
                  val nodes: MutableSet<Node> = Collections.synchronizedSet(LinkedHashSet())) {

@@ -1,7 +1,7 @@
 package io.github.okafke.aapi.app.tree
 
-import io.github.okafke.aapi.aidl.Node
 import io.github.okafke.aapi.aidl.Input
+import io.github.okafke.aapi.aidl.Node
 
 class TreeHolder(var mapper: TreeMapper) {
     var currentNode = Node.root()

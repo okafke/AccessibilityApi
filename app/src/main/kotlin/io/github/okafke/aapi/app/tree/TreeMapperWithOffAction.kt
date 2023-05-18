@@ -1,15 +1,10 @@
 package io.github.okafke.aapi.app.tree
 
 import android.accessibilityservice.AccessibilityService
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.view.accessibility.AccessibilityNodeInfo
-import android.view.accessibility.AccessibilityNodeInfo.FOCUS_INPUT
-import io.github.okafke.aapi.app.Constants
-import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.aidl.Input
 import io.github.okafke.aapi.aidl.Node
+import io.github.okafke.aapi.app.Constants
+import io.github.okafke.aapi.app.R
 
 
 class TreeMapperWithOffAction(private val service: AccessibilityService,

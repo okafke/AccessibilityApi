@@ -1,9 +1,9 @@
 package io.github.okafke.aapi.app.tree.permissions
 
 import android.view.accessibility.AccessibilityNodeInfo
-import io.github.okafke.aapi.app.R
-import io.github.okafke.aapi.app.Constants
 import io.github.okafke.aapi.aidl.Node
+import io.github.okafke.aapi.app.Constants
+import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.overlay.TreeListener
 
 class DenyNode(

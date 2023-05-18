@@ -4,9 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.os.Build
 import android.os.Bundle
 import android.view.accessibility.AccessibilityNodeInfo
-import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
-import androidx.core.content.getSystemService
 import io.github.okafke.aapi.aidl.IKeyboard
 import io.github.okafke.aapi.app.service.AApiOverlayService
 

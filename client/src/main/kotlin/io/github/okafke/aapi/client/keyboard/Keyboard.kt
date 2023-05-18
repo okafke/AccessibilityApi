@@ -2,8 +2,8 @@
 
 package io.github.okafke.aapi.client.keyboard
 
-import io.github.okafke.aapi.client.json.ServiceHolder
 import io.github.okafke.aapi.annotations.Action
+import io.github.okafke.aapi.client.json.ServiceHolder
 
 object Keyboard {
     private var current = "none"

@@ -2,7 +2,6 @@ package io.github.okafke.aapi.app
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.github.okafke.aapi.aidl.Node
 import io.github.okafke.aapi.app.input.InputService

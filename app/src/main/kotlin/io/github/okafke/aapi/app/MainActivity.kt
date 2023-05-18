@@ -3,11 +3,9 @@ package io.github.okafke.aapi.app
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
-import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.aidl.NavigationTreeService
 import io.github.okafke.aapi.app.util.FileHelper
 
