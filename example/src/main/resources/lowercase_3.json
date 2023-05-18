@@ -1,0 +1,493 @@
+[
+  {
+    "name": "abc",
+    "drawableId": [],
+    "children": [
+      {
+        "name": "abcdefghi",
+        "drawableId": [],
+        "children": [
+          {
+            "name": "abc",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "a",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "a",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "b",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "b",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "c",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "c",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "def",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "d",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "d",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "e",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "e",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "f",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "f",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "ghi",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "g",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "g",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "h",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "h",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "i",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "i",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "jklmnopqr",
+        "drawableId": [],
+        "children": [
+          {
+            "name": "jkl",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "j",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "j",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "k",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "k",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "l",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "l",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "mno",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "m",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "m",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "n",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "n",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "o",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "o",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "pqr",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "p",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "p",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "q",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "q",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "r",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "r",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "stuvwxyz",
+        "drawableId": [],
+        "children": [
+          {
+            "name": "stu",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "s",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "s",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "t",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "t",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "u",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "u",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "vwx",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "v",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "v",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "w",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "w",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "x",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "x",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "yz",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "y",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "y",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "z",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "z",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "More",
+    "drawableId": [
+      "keyboard_more"
+    ],
+    "children": [
+      {
+        "name": "Delete",
+        "drawableId": [
+          "delete"
+        ],
+        "adapter": {
+          "uid": "delete",
+          "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+          "method": "delete"
+        }
+      },
+      {
+        "name": "Space",
+        "drawableId": [],
+        "adapter": {
+          "uid": "space",
+          "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+          "method": "typeSpace"
+        }
+      },
+      {
+        "name": "Shift,Stop",
+        "drawableId": [
+          "shift_key",
+          "stop_typing"
+        ],
+        "children": [
+          {
+            "name": "Shift",
+            "drawableId": [
+              "shift_key"
+            ],
+            "adapter": {
+              "uid": "shift_to_upper",
+              "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+              "method": "loadUpperCaseTree"
+            }
+          },
+          {
+            "name": "Stop",
+            "drawableId": [
+              "stop_typing"
+            ],
+            "adapter": {
+              "uid": "back",
+              "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+              "method": "returnToPreviousTree"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "123",
+    "drawableId": [],
+    "children": [
+      {
+        "name": "123456789",
+        "drawableId": [],
+        "children": [
+          {
+            "name": "123",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "1",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "1",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "2",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "2",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "3",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "3",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "456",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "4",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "4",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "5",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "5",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "6",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "6",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          },
+          {
+            "name": "789",
+            "drawableId": [],
+            "children": [
+              {
+                "name": "7",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "7",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "8",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "8",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              },
+              {
+                "name": "9",
+                "drawableId": [],
+                "adapter": {
+                  "uid": "9",
+                  "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+                  "method": "typeKey"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "0",
+        "drawableId": [],
+        "adapter": {
+          "uid": "0",
+          "class": "io.github.okafke.aapi.client.keyboard.Keyboard",
+          "method": "typeKey"
+        }
+      }
+    ]
+  }
+]

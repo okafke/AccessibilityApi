@@ -15,7 +15,7 @@ import io.github.okafke.aapi.client.tree.AbstractNode
 import java.util.function.Consumer
 
 
-class ClientService(val ctx: Context) {
+class ClientService(val ctx: Context, val addApp: Boolean = true) {
     companion object {
         const val API_PACKAGE = "io.github.okafke.aapi.app"
         var PACKAGE_NAME = BuildConfig.LIBRARY_PACKAGE_NAME
@@ -55,13 +55,16 @@ class ClientService(val ctx: Context) {
     private var pendingAction: Runnable? = Runnable {
         whenAvailable { api ->
             run {
-                api.registerApp(ctx.packageName, Node(
-                    getAppLabel(ctx),
-                    if (ctx.applicationInfo.icon == 0) emptyArray() else arrayOf(ctx.applicationInfo.icon),
-                    if (ctx.applicationInfo.icon == 0) emptyArray() else arrayOf(ctx.packageName),
-                    "Starts the ${ctx.packageName} app",
-                    0, emptyArray()
-                ))
+                println("Add App: $addApp")
+                if (addApp) {
+                    api.registerApp(ctx.packageName, Node(
+                        getAppLabel(ctx),
+                        if (ctx.applicationInfo.icon == 0) emptyArray() else arrayOf(ctx.applicationInfo.icon),
+                        if (ctx.applicationInfo.icon == 0) emptyArray() else arrayOf(ctx.packageName),
+                        "Starts the ${ctx.packageName} app",
+                        0, emptyArray()
+                    ))
+                }
             }
         }
     }
@@ -94,11 +97,15 @@ class ClientService(val ctx: Context) {
             if (navigationService != null) {
                 callbackHandler.clearCallbacks()
                 val array = vertices.map { it.serialize(callbackHandler) }.toTypedArray()
-                println(array)
+                println("Navigation Tree: $array")
                 navigationService.setNavigationTree(array)
             } else {
                 println("Not connected but setNavigationTree was called, setting currentTree...")
-                pendingAction = Runnable { setNavigationTree(vertices) }
+                val existingAction = pendingAction
+                pendingAction = Runnable {
+                    existingAction?.run()
+                    setNavigationTree(vertices)
+                }
             }
         }
     }
@@ -111,7 +118,11 @@ class ClientService(val ctx: Context) {
                 action.accept(navigationService)
             } else {
                 println("Not connected but setNavigationTree was called, setting currentTree...")
-                pendingAction = Runnable { setNavigationTree(action) }
+                val existingAction = pendingAction
+                pendingAction = Runnable {
+                    existingAction?.run()
+                    setNavigationTree(action)
+                }
             }
         }
     }
@@ -122,9 +133,9 @@ class ClientService(val ctx: Context) {
             if (navigationService != null) {
                 action.accept(navigationService)
             } else {
-                val currentPendingAction = pendingAction
+                val existingAction = pendingAction
                 pendingAction = Runnable {
-                    currentPendingAction?.run()
+                    existingAction?.run()
                     setNavigationTree(action)
                 }
             }

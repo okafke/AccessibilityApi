@@ -139,7 +139,11 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
 
             overlay.overlay = Overlay(this)
             buttonService.addOffButton(this, overlay.overlay!!)
+
             buttonService.addViewInputsButton(this, overlay.overlay!!)
+
+            buttonService.addAppsButton(this, overlay.overlay!!)
+
             buttonService.addButtons(this, inputService, overlay.overlay!!)
         }
     }

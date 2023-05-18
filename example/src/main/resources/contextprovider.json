@@ -1,0 +1,5 @@
+{
+  "uid": "context",
+  "class": "io.github.okafke.example.MainActivity",
+  "method": "provideContext"
+}

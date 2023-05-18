@@ -2,6 +2,7 @@ package io.github.okafke.aapi.app.overlay
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.view.KeyEvent
@@ -9,11 +10,16 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.widget.Button
+import androidx.core.content.ContextCompat.startActivity
 import androidx.preference.PreferenceManager
+import io.github.okafke.aapi.aidl.Node
+import io.github.okafke.aapi.app.AppManager
 import io.github.okafke.aapi.app.R
 import io.github.okafke.aapi.app.input.InputService
 import io.github.okafke.aapi.app.service.AApiOverlayService
+import io.github.okafke.aapi.app.tree.DefaultTreeMapper
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicReference
 
 
 class ButtonService {
@@ -61,66 +67,21 @@ class ButtonService {
         overlay.overlayElements = elements
     }
 
-    fun addOffButton(context: AApiOverlayService, overlay: Overlay) {
-        val button = Button(context)
-        val lp = WindowManager.LayoutParams()
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        button.layoutParams = lp
-        button.isAllCaps = false
-        button.text = "Off"
-        //button.background.colorFilter = LightingColorFilter(0xFFFFFFFF.toInt(), 0xFFAA0000.toInt())
-        button.background.colorFilter = PorterDuffColorFilter(0xFFFF0000.toInt(), PorterDuff.Mode.MULTIPLY)
-        button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.power, 0, 0)
+    fun addAppsButton(context: AApiOverlayService, overlay: Overlay) {
+        addButton(context, overlay, "Apps", 0xFFFFFF00, 5, R.drawable.show_apps) {
+            val startMain = Intent(Intent.ACTION_MAIN)
+            startMain.addCategory(Intent.CATEGORY_HOME)
+            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(startMain)
 
-        val viewTreeObserver = overlay.viewTreeObserver
-        if (viewTreeObserver.isAlive) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (viewTreeObserver.isAlive) {
-                        viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    }
-
-                    positionButton(7, button, overlay, null)
-                }
-            })
+            AppManager.init(context.applicationContext)
+            context.onNewTree(AppManager.getTree(context.inputService, DefaultTreeMapper()))
         }
-
-        button.setOnClickListener {
-            println("Off button clicked")
-            context.disableSelf()
-        }
-
-        overlay.addView(button)
     }
 
     fun addViewInputsButton(context: AApiOverlayService, overlay: Overlay) {
-        val button = Button(context)
-        val lp = WindowManager.LayoutParams()
-        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        button.layoutParams = lp
-        button.isAllCaps = false
-        button.text = "Inputs"
-        //button.background.colorFilter = LightingColorFilter(0xFFFFFFFF.toInt(), 0xFFAA0000.toInt())
-        button.background.colorFilter = PorterDuffColorFilter(0xFF00FFFF.toInt(), PorterDuff.Mode.MULTIPLY)
-        button.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.gamepad, 0, 0)
-
-        val viewTreeObserver = overlay.viewTreeObserver
-        if (viewTreeObserver.isAlive) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (viewTreeObserver.isAlive) {
-                        viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    }
-
-                    positionButton(6, button, overlay, null)
-                }
-            })
-        }
-
         val isShowingInputs = AtomicBoolean()
-        button.setOnClickListener {
+        addButton(context, overlay, "Inputs", 0xFF00FFFF, 6, R.drawable.gamepad) {
             isShowingInputs.set(!isShowingInputs.get())
             if (isShowingInputs.get()) {
                 overlay.overlayElements.forEach { element ->
@@ -132,7 +93,42 @@ class ButtonService {
                 }
             }
         }
+    }
 
+    fun addOffButton(context: AApiOverlayService, overlay: Overlay) {
+        addButton(context, overlay, "Off", 0xFFFF0000, 7, R.drawable.power) {
+            println("Off button clicked")
+            context.disableSelf()
+        }
+    }
+
+    fun addButton(context: AApiOverlayService, overlay: Overlay, name: String, color: Long, position: Int, drawable: Int, listener: View.OnClickListener) {
+        val button = Button(context)
+        val lp = WindowManager.LayoutParams()
+        lp.width = WindowManager.LayoutParams.WRAP_CONTENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        button.layoutParams = lp
+        button.isAllCaps = false
+        button.text = name
+        //button.background.colorFilter = LightingColorFilter(0xFFFFFFFF.toInt(), 0xFFAA0000.toInt())
+        button.background.colorFilter = PorterDuffColorFilter(color.toInt(), PorterDuff.Mode.MULTIPLY)
+        button.setCompoundDrawablesWithIntrinsicBounds(0, drawable, 0, 0)
+
+        val viewTreeObserver = overlay.viewTreeObserver
+        if (viewTreeObserver.isAlive) {
+            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (viewTreeObserver.isAlive) {
+                        viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    }
+
+                    positionButton(position, button, overlay, null)
+                }
+            })
+        }
+
+
+        button.setOnClickListener(listener)
         overlay.addView(button)
     }
 
