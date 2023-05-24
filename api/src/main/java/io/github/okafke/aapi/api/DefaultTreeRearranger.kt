@@ -4,10 +4,10 @@ open class DefaultTreeRearranger: TreeRearranger {
     override fun <T> rearrange(tree: Array<T>, degree: Int, adapter: NodeAdapter<T>): Array<T> {
         val parents = ArrayDeque<T?>()
         parents.add(null)
-        return rearrangeInternal(parents, tree, degree, adapter)
+        return rearrangeInternal(parents, tree, degree, degree, adapter)
     }
 
-    protected open fun <T> rearrangeInternal(parents: ArrayDeque<T?>, treeIn: Array<T>, degree: Int, adapter: NodeAdapter<T>): Array<T> {
+    protected open fun <T> rearrangeInternal(parents: ArrayDeque<T?>, treeIn: Array<T>, degree: Int, actualDegree: Int, adapter: NodeAdapter<T>): Array<T> {
         var tree = treeIn
         val superParent = if (parents.size > 1) parents[1] else null
         if (superParent != null) {
@@ -30,7 +30,7 @@ open class DefaultTreeRearranger: TreeRearranger {
 
         for (node in tree) {
             parents.addFirst(node)
-            adapter.setChildren(node, rearrangeInternal(parents, adapter.getChildren(node), degree, adapter))
+            adapter.setChildren(node, rearrangeInternal(parents, adapter.getChildren(node), degree, actualDegree, adapter))
             parents.removeFirst()
         }
 

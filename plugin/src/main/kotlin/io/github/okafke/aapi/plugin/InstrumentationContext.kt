@@ -2,6 +2,7 @@ package io.github.okafke.aapi.plugin
 
 import com.google.gson.JsonParser
 import io.github.okafke.aapi.api.DefaultTreeRearranger
+import io.github.okafke.aapi.api.TreeArrangerWithBackAction
 import java.io.*
 import java.nio.file.Files
 import java.util.concurrent.ConcurrentHashMap
@@ -83,7 +84,8 @@ class InstrumentationContext(val dir: File, val cacheDir: File): Serializable {
         Files.newBufferedWriter(dir.toPath().resolve("${tree.name}_$degree.json")).use { br ->
             //Constants.GSON.toJson(tree.toJson(degree), br)
             val nodeAdapter = PluginNodeAdapter(this)
-            val treeRearranger = DefaultTreeRearranger()
+            //val treeRearranger = DefaultTreeRearranger()
+            val treeRearranger = TreeArrangerWithBackAction()
             val nodes = treeRearranger.rearrange(tree.found.values.toTypedArray(), degree, nodeAdapter)
             Constants.GSON.toJson(nodeAdapter.toJson(nodes), br)
         }
