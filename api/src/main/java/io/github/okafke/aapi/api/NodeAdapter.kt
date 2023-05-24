@@ -3,6 +3,8 @@ package io.github.okafke.aapi.api
 interface NodeAdapter<T> {
     fun getType(): Class<T>
 
+    fun getBackAction(): T
+
     fun getChildren(node: T): Array<T>
 
     fun removeChild(node: T, child: T)
@@ -13,6 +15,7 @@ interface NodeAdapter<T> {
 
     fun aggregate(nodes: Array<T>, degree: Int): Array<T>
 
+    // TODO: implement taking priority into account
     fun getNodesToMoveUpwards(nodes: Array<T>, amount: Int): Array<T> {
         val result = ArrayList<T>(amount)
         for (i in nodes.size - 1 downTo 0) {
@@ -22,8 +25,12 @@ interface NodeAdapter<T> {
             }
         }
 
-        @Suppress("UNCHECKED_CAST")
-        return result.toArray(java.lang.reflect.Array.newInstance(getType(), 0) as Array<T>)
+        return result.toArray(getEmptyArray())
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun getEmptyArray(): Array<T> {
+        return java.lang.reflect.Array.newInstance(getType(), 0) as Array<T>
     }
 
 }

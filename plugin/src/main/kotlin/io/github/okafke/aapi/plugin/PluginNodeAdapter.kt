@@ -4,9 +4,10 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import io.github.okafke.aapi.api.NodeAdapter
+import io.github.okafke.aapi.client.json.instances.BackAction
 
 class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> {
-    val childMap = HashMap<String, MutableList<Node>>()
+    private val childMap = HashMap<String, MutableList<Node>>()
 
     fun clear() {
         childMap.clear()
@@ -33,6 +34,10 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
 
     override fun getType(): Class<Node> {
         return Node::class.java
+    }
+
+    override fun getBackAction(): Node {
+        return Action("Back", "baseline_undo_24", Adapter("backAction", BackAction::class.java.name, "back"))
     }
 
     override fun aggregate(nodes: Array<Node>, degree: Int): Array<Node> {

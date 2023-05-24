@@ -54,6 +54,11 @@ class OverlayUpdateService(private val context: Context,
                 ?.let {
                     ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
                 }
+                // search in own resources
+                ?: context.packageManager
+                    ?.getResourcesForApplication(context.packageName)?.let {
+                        ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
+                    }
         }
     }
 

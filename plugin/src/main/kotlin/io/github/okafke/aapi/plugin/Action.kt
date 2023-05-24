@@ -10,7 +10,8 @@ fun Action(name: String, drawableId: String, adapter: Adapter): Action {
 data class Action(
     @SerializedName("name") override var name: String,
     @SerializedName("drawableId") override var drawableId: Array<String>,
-    @SerializedName("adapter") val adapter: Adapter
+    @SerializedName("adapter") val adapter: Adapter,
+    //@SerializedName("priority") override var priority: Int
 ): java.io.Serializable, Node {
     override fun toJson(): JsonElement {
         return Constants.GSON.toJsonTree(this)
