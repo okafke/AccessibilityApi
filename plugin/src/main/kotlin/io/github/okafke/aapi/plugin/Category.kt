@@ -77,13 +77,16 @@ data class Category(
         return obj
     }
 
-    private fun merge(children: MutableMap<String, Node>): Category {
-        val name: String = children.keys.stream().collect(Collectors.joining(","))
-        val drawableIds: Array<String> = children.values.stream().map { c -> c.drawableId }.flatMap { Arrays.stream(it) }.limit(4).toList().toTypedArray()
-        val childSet = HashSet(children.keys)
-        val result = Category(name, drawableIds, childSet)
-        result.found = children
-        return result
+    companion object {
+        @JvmStatic
+        fun merge(children: MutableMap<String, Node>): Category {
+            val name: String = children.keys.stream().collect(Collectors.joining(","))
+            val drawableIds: Array<String> = children.values.stream().map { c -> c.drawableId }.flatMap { Arrays.stream(it) }.limit(4).toList().toTypedArray()
+            val childSet = HashSet(children.keys)
+            val result = Category(name, drawableIds, childSet)
+            result.found = children
+            return result
+        }
     }
 
     override fun equals(other: Any?): Boolean {

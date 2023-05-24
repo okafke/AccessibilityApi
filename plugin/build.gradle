@@ -5,6 +5,7 @@ plugins {
 }
 
 dependencies {
+    implementation project(':api')
     implementation project(':annotations')
     implementation project(':instances')
     implementation project(':json')

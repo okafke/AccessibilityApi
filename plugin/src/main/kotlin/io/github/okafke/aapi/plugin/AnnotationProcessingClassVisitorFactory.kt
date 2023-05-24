@@ -15,6 +15,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
 import java.lang.reflect.Modifier
+import java.util.function.Consumer
 
 
 abstract class AnnotationProcessingClassVisitorFactory :
@@ -32,56 +33,82 @@ abstract class AnnotationProcessingClassVisitorFactory :
         classContext: ClassContext,
         nextClassVisitor: ClassVisitor
     ): ClassVisitor {
-        println("Visiting ${classContext.currentClassData.className}")
+        // println("Visiting ${classContext.currentClassData.className}")
         return object: NodeClassVisitor(nextClassVisitor) {
             override fun process(node: ClassNode) {
                 var updated = false
-                for (annotation in node.getAllAnnotations()) {
-                    if (Constants.categoryDesc == annotation.desc) {
-                        val name = annotation.values[1] as String
-                        val drawableId = annotation.values[3] as String
-                        @Suppress("UNCHECKED_CAST")
-                        val children = annotation.values[5] as java.util.ArrayList<String>
-                        val category = Category(name, drawableId, LinkedHashSet(children))
-                        parameters.get().context.get().addCategory(category)
-                        updated = true
-                        println("Category: $category")
-                    }
+                for (anode in node.getAllAnnotations()) {
+                    checkAnnotationNode(anode) { annotation ->
+                        if (Constants.categoryDesc == annotation.desc) {
+                            val name = annotation.values[1] as String
+                            val drawableId = annotation.values[3] as String
+                            @Suppress("UNCHECKED_CAST")
+                            val children = annotation.values[5] as java.util.ArrayList<String>
+                            val category = Category(name, drawableId, LinkedHashSet(children))
+                            parameters.get().context.get().addCategory(category)
+                            updated = true
+                            println("Category: $category")
+                        }
 
-                    if (Constants.treeDesc == annotation.desc) {
-                        val name = annotation.values[1] as String
-                        @Suppress("UNCHECKED_CAST")
-                        val children = annotation.values[3] as java.util.ArrayList<String>
-                        val tree = Tree(name, LinkedHashSet(children))
-                        parameters.get().context.get().addTree(tree)
-                        updated = true
-                        println("Tree: $tree")
-                        injectTree(tree, node)
+                        if (Constants.treeDesc == annotation.desc) {
+                            val name = annotation.values[1] as String
+                            @Suppress("UNCHECKED_CAST")
+                            val children = annotation.values[3] as java.util.ArrayList<String>
+                            val tree = Tree(name, LinkedHashSet(children))
+                            parameters.get().context.get().addTree(tree)
+                            updated = true
+                            println("Tree: $tree")
+                            injectTree(tree, node)
+                        }
+
+                        if (Constants.aggregateDesc == annotation.desc) {
+                            val name = annotation.values[1] as String
+                            val drawableId = annotation.values[3] as String
+                            @Suppress("UNCHECKED_CAST")
+                            val children = annotation.values[5] as java.util.ArrayList<String>
+                            val aggregate = Aggregate(name, drawableId, children.toTypedArray())
+                            parameters.get().context.get().addAggregate(aggregate)
+                            updated = true
+                            println("Aggregate: $aggregate")
+                        }
                     }
                 }
 
                 for (method in node.methods) {
-                    for (annotation in method.getAllAnnotations()) {
-                        if (Constants.actionDesc == annotation.desc) {
-                            val name = annotation.values[1] as String
-                            val drawableId = annotation.values[3] as String
-                            val adapter = processMethodNode(name, node, method)
-                            val action = Action(name, drawableId, adapter)
-                            parameters.get().context.get().addAction(action)
-                            updated = true
-                            println("Action: $action")
-                        }
+                    for (anode in method.getAllAnnotations()) {
+                        @Suppress("BlockingMethodInNonBlockingContext")
+                        checkAnnotationNode(anode) { annotation ->
+                            // TODO: For repeatables: Lio/github/okafke/aapi/annotations/Action$Container;
+                            if (Constants.actionDesc.replace(
+                                    ";",
+                                    ""
+                                ) + "\$Container;" == annotation.desc
+                            ) {
+                                println(annotation.values)
+                            }
 
-                        if (Constants.contextDesc == annotation.desc) {
-                            println("Found ContextProvider on ${method.name}")
-                            val adapter = Adapter(
-                                "context",
-                                node.name.replace("/", "."),
-                                method.name)
+                            if (Constants.actionDesc == annotation.desc) {
+                                val name = annotation.values[1] as String
+                                val drawableId = annotation.values[3] as String
+                                val adapter = processMethodNode(name, node, method)
+                                val action = Action(name, drawableId, adapter)
+                                parameters.get().context.get().addAction(action)
+                                updated = true
+                                println("Action: $action")
+                            }
 
-                            val file = File(parameters.get().dir.get(), "contextprovider.json")
-                            OutputStreamWriter(FileOutputStream(file)).use { writer ->
-                                Constants.GSON.toJson(adapter, writer)
+                            if (Constants.contextDesc == annotation.desc) {
+                                println("Found ContextProvider on ${method.name}")
+                                val adapter = Adapter(
+                                    "context",
+                                    node.name.replace("/", "."),
+                                    method.name
+                                )
+
+                                val file = File(parameters.get().dir.get(), "contextprovider.json")
+                                OutputStreamWriter(FileOutputStream(file)).use { writer ->
+                                    Constants.GSON.toJson(adapter, writer)
+                                }
                             }
                         }
                     }
@@ -104,6 +131,22 @@ abstract class AnnotationProcessingClassVisitorFactory :
                     parameters.get().context.get().update()
                 }
             }
+        }
+    }
+
+    private fun checkAnnotationNode(annotation: AnnotationNode, consumer: Consumer<AnnotationNode>) {
+        if (annotation.desc.endsWith("\$Container;")) {
+            for (value in annotation.values) {
+                if (value is List<*>) {
+                    for (valueValue in value) {
+                        if (valueValue is AnnotationNode) {
+                            checkAnnotationNode(valueValue, consumer)
+                        }
+                    }
+                }
+            }
+        } else {
+            consumer.accept(annotation)
         }
     }
 

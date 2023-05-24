@@ -9,6 +9,7 @@ object Constants {
     val categoryDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.Category::class.java)!!
     val treeDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.Tree::class.java)!!
     val contextDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.ContextProvider::class.java)!!
+    val aggregateDesc = Type.getDescriptor(io.github.okafke.aapi.annotations.Aggregate::class.java)!!
 
     val GSON: Gson = Exclude.GSON
 

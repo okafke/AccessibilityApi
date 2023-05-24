@@ -1,14 +1,16 @@
 package io.github.okafke.aapi.plugin
 
 import com.google.gson.JsonParser
+import io.github.okafke.aapi.api.DefaultTreeRearranger
 import java.io.*
 import java.nio.file.Files
 import java.util.concurrent.ConcurrentHashMap
 
-class InstrumentationContext(private val dir: File, private val cacheDir: File): Serializable {
+class InstrumentationContext(val dir: File, val cacheDir: File): Serializable {
     val actions = HashMap<String, Action>()
     private val categories = HashMap<String, Category>()
     private val trees = ConcurrentHashMap<String, Tree>()
+    val aggregates = ArrayList<Aggregate>()
 
     init {
         dir.mkdirs()
@@ -17,6 +19,10 @@ class InstrumentationContext(private val dir: File, private val cacheDir: File):
 
     fun addAction(action: Action) {
         actions[action.name] = action
+    }
+
+    fun addAggregate(aggregate: Aggregate) {
+        aggregates.add(aggregate)
     }
 
     fun addCategory(category: Category) {
@@ -75,7 +81,11 @@ class InstrumentationContext(private val dir: File, private val cacheDir: File):
 
     fun writeTree(tree: Tree, degree: Int) {
         Files.newBufferedWriter(dir.toPath().resolve("${tree.name}_$degree.json")).use { br ->
-            Constants.GSON.toJson(tree.toJson(degree), br)
+            //Constants.GSON.toJson(tree.toJson(degree), br)
+            val nodeAdapter = PluginNodeAdapter(this)
+            val treeRearranger = DefaultTreeRearranger()
+            val nodes = treeRearranger.rearrange(tree.found.values.toTypedArray(), degree, nodeAdapter)
+            Constants.GSON.toJson(nodeAdapter.toJson(nodes), br)
         }
     }
 
