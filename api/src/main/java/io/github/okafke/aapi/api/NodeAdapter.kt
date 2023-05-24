@@ -15,6 +15,12 @@ interface NodeAdapter<T> {
 
     fun aggregate(nodes: Array<T>, degree: Int): Array<T>
 
+    fun mergeWithBackNode(node: T): T
+
+    fun getNodeToMergeWithBackNode(nodes: Array<T>): T {
+        return nodes[nodes.size - 1]
+    }
+
     // TODO: implement taking priority into account
     fun getNodesToMoveUpwards(nodes: Array<T>, amount: Int): Array<T> {
         val result = ArrayList<T>(amount)

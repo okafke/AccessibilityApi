@@ -40,6 +40,14 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
         return Action("Back", "baseline_undo_24", Adapter("backAction", BackAction::class.java.name, "back"))
     }
 
+    override fun mergeWithBackNode(node: Node): Node {
+        val map = LinkedHashMap<String, Node>()
+        map[node.name] = node
+        val back = getBackAction()
+        map[back.name] = back
+        return Category.merge(map)
+    }
+
     override fun aggregate(nodes: Array<Node>, degree: Int): Array<Node> {
         val result = ArrayList(nodes.asList())
         while (result.size > degree) {
