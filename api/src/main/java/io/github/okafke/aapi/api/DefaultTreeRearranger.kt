@@ -21,6 +21,10 @@ open class DefaultTreeRearranger: TreeRearranger {
                 }
 
                 tree = list.toArray(adapter.getEmptyArray())
+                // all nodes have been moved up, no need for category in super parent
+                if (nodesToMoveUp.size == tree.size && parents[0] != null) {
+                    adapter.removeChild(superParent, parents[0]!!)
+                }
             }
         }
 
