@@ -16,6 +16,9 @@
     <string name="overlay_passthrough_key">overlay_passthrough</string>
     <string name="overlay_passthrough">Make Overlay passthrough</string>
 
+    <string name="add_aapi_settings_key">add_aapi_settings</string>
+    <string name="add_aapi_settings">Add AAPI Action</string>
+
     <string name="back_action_key">back_action</string>
     <string name="back_action">Add Back Action</string>
 

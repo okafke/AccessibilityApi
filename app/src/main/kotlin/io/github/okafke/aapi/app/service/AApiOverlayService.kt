@@ -105,8 +105,96 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
 
     override fun onNewTree(tree: Array<Node>) {
         println("Received new tree ${tree.contentToString()}")
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val addAApiSettings = pref.getBoolean(applicationContext.getString(R.string.add_aapi_settings_key), false)
+        if (addAApiSettings) {
+            val newTree = ArrayList(tree.asList())
+            if (newTree.size == inputService.inputs.size) {
+
+            } else {
+
+            }
+        }
+
+
         treeHolder.setTree(tree, inputService.inputs)
         overlayUpdateService.update(treeHolder.currentNode)
+    }
+
+    private fun getSettingsNode(): Node {
+        val off = Node(
+            "Off",
+            arrayOf(R.drawable.power),
+            arrayOf(applicationContext.packageName),
+            "dummy",
+            Node.INVALID_ID,
+            emptyArray())
+
+        off.callbackInApi = Runnable {
+            disableSelf()
+        }
+
+        val apps = Node(
+            "Apps",
+            arrayOf(R.drawable.show_apps),
+            arrayOf(applicationContext.packageName),
+            "dummy",
+            Node.INVALID_ID,
+            emptyArray())
+
+        apps.callbackInApi = Runnable {
+            val startMain = Intent(Intent.ACTION_MAIN)
+            startMain.addCategory(Intent.CATEGORY_HOME)
+            startMain.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            applicationContext.startActivity(startMain)
+
+            AppManager.init(applicationContext.applicationContext)
+            onNewTree(AppManager.getTree(inputService, DefaultTreeMapper()))
+        }
+
+        val inputs = Node(
+            "Inputs",
+            arrayOf(R.drawable.gamepad),
+            arrayOf(applicationContext.packageName),
+            "dummy",
+            Node.INVALID_ID,
+            emptyArray())
+
+        inputs.callbackInApi = Runnable {
+            threadHandler.post {
+                overlay.overlay?.overlayElements?.forEach { element ->
+                    OverlayUpdateService.update(applicationContext, element, element.input.getAsNode(), false)
+                }
+
+                threadHandler.postDelayed({
+                    overlay.overlay?.overlayElements?.forEach { element ->
+                        OverlayUpdateService.update(applicationContext, element, element.node, false)
+                    }
+                }, 5_000)
+            }
+        }
+
+        val children: Array<Node> = if (inputService.inputs.size == 2) {
+            val nestedCategory = Node("Off, Inputs",
+                arrayOf(R.drawable.aapi_settings),
+                arrayOf(applicationContext.packageName),
+                "dummy",
+                Node.INVALID_ID,
+                arrayOf(off, inputs))
+
+            arrayOf(nestedCategory, apps)
+        } else {
+            arrayOf(apps, inputs, off)
+        }
+
+
+        return Node("AApi",
+            arrayOf(R.drawable.aapi_settings),
+            arrayOf(applicationContext.packageName),
+            "dummy",
+            Node.INVALID_ID,
+            children)
     }
 
     private fun setMapper() {

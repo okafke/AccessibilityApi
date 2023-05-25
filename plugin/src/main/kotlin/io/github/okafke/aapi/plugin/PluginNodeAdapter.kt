@@ -37,7 +37,7 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
     }
 
     override fun getBackAction(): Node {
-        return Action("Back", "baseline_undo_24", Adapter("backAction", BackAction::class.java.name, "back"))
+        return Action("Back", "aapi_undo", Adapter("backAction", BackAction::class.java.name, "back"))
     }
 
     override fun mergeWithBackNode(node: Node): Node {

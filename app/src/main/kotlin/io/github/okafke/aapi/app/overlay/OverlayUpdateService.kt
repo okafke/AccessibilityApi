@@ -49,16 +49,24 @@ class OverlayUpdateService(private val context: Context,
                 return null
             }
 
-            return context.packageManager
-                ?.getResourcesForApplication(node.drawablePackageNames[index]!!)
-                ?.let {
-                    ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
-                }
-                // search in own resources
-                ?: context.packageManager
-                    ?.getResourcesForApplication(context.packageName)?.let {
+            try {
+                return context.packageManager
+                    ?.getResourcesForApplication(node.drawablePackageNames[index]!!)
+                    ?.let {
                         ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
                     }
+            } catch (e: Exception) {
+                return try {
+                    context.packageManager
+                        ?.getResourcesForApplication(context.packageName)?.let {
+                            println("Looking for fallback resource ${node.drawableIds[index]} in PackageName: ${context.packageName}")
+                            ResourcesCompat.getDrawable(it, node.drawableIds[index], null)
+                        }
+                } catch (ee: Exception) {
+                    ee.printStackTrace()
+                    null
+                }
+            }
         }
     }
 

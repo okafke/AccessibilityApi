@@ -24,6 +24,11 @@
             android:defaultValue="true"/>
 
         <CheckBoxPreference
+            android:title="@string/add_aapi_settings"
+            android:key="@string/add_aapi_settings_key"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
             android:title="@string/back_action"
             android:key="@string/back_action_key"
             android:defaultValue="false"/>

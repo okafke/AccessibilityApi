@@ -6,6 +6,7 @@ import io.github.okafke.aapi.plugin.test.TestClass
 import org.gradle.api.Transformer
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.Provider
+import org.junit.jupiter.api.Test
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.Opcodes
@@ -13,48 +14,45 @@ import java.io.File
 import java.nio.file.Paths
 import java.util.function.BiFunction
 
-fun main() {
-    val context = InstrumentationContext(Paths.get("build", "test").toFile(), Paths.get("build", "test").toFile())
-    val parameters = object: AnnotationProcessingClassVisitorFactory.Parameters {
-        override val dir: Property<File>
-            get() = DummyProperty(context.dir)
-        override val cacheDir: Property<File>
-            get() = DummyProperty(context.cacheDir)
-        override val context: Property<InstrumentationContext>
-            get() = DummyProperty(context)
+class InstrumentationTest {
+    @Test
+    fun testTestClass() {
+        val context = InstrumentationContext(Paths.get("build", "test").toFile(), Paths.get("build", "test").toFile())
+        val parameters = object: AnnotationProcessingClassVisitorFactory.Parameters {
+            override val dir: Property<File>
+                get() = DummyProperty(context.dir)
+            override val cacheDir: Property<File>
+                get() = DummyProperty(context.cacheDir)
+            override val context: Property<InstrumentationContext>
+                get() = DummyProperty(context)
 
-    }
-
-    val classVisitorFactory = object: AnnotationProcessingClassVisitorFactory() {
-        override val instrumentationContext: com.android.build.api.instrumentation.InstrumentationContext
-            get() = object: com.android.build.api.instrumentation.InstrumentationContext {
-                override val apiVersion: Property<Int>
-                    get() = DummyProperty(33)
-            }
-        override val parameters: Property<Parameters>
-            get() = DummyProperty(parameters)
-    }
-
-    TestClass::class.java.classLoader.getResourceAsStream(TestClass::class.java.name.replace(".", "/") + ".class").use {
-        val cr = ClassReader(it)
-        val nextCv = object: ClassVisitor(Opcodes.ASM9) {}
-        val classContext = object: ClassContext {
-            override val currentClassData: ClassData
-                get() = TODO("Not yet implemented")
-
-            override fun loadClassData(className: String): ClassData? {
-                TODO("Not yet implemented")
-            }
         }
 
-        val cv = classVisitorFactory.createClassVisitor(classContext, nextCv)
-        cr.accept(cv, 0)
-    }
-}
+        val classVisitorFactory = object: AnnotationProcessingClassVisitorFactory() {
+            override val instrumentationContext: com.android.build.api.instrumentation.InstrumentationContext
+                get() = object: com.android.build.api.instrumentation.InstrumentationContext {
+                    override val apiVersion: Property<Int>
+                        get() = DummyProperty(33)
+                }
+            override val parameters: Property<Parameters>
+                get() = DummyProperty(parameters)
+        }
 
-class InstrumentationTest {
-    fun main() {
+        TestClass::class.java.classLoader.getResourceAsStream(TestClass::class.java.name.replace(".", "/") + ".class").use {
+            val cr = ClassReader(it)
+            val nextCv = object: ClassVisitor(Opcodes.ASM9) {}
+            val classContext = object: ClassContext {
+                override val currentClassData: ClassData
+                    get() = TODO("Not yet implemented")
 
+                override fun loadClassData(className: String): ClassData? {
+                    TODO("Not yet implemented")
+                }
+            }
+
+            val cv = classVisitorFactory.createClassVisitor(classContext, nextCv)
+            cr.accept(cv, 0)
+        }
     }
 }
 
