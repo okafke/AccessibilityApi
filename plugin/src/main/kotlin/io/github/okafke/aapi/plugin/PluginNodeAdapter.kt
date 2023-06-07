@@ -110,10 +110,6 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
     }
 
     override fun getChildren(node: Node): Array<Node> {
-        if (node.name == "yz") {
-            return emptyArray()
-        }
-
         if (node is Category) {
             initializeChildMap(node)
             return childMap[node.name]?.toTypedArray() ?: emptyArray()

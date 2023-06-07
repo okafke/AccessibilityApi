@@ -6,6 +6,7 @@ import java.util.function.BiConsumer
 import java.util.function.Consumer
 import javax.inject.Inject
 
+// TODO: we need an even BetterGenerateKeyboardTreeTask!!!!
 open class BetterGenerateKeyboardTreeTask @Inject constructor(private val ctx: InstrumentationContext): DefaultTask() {
     companion object {
         // TODO: if we could include the subproject we could the actual class
@@ -31,28 +32,47 @@ open class BetterGenerateKeyboardTreeTask @Inject constructor(private val ctx: I
                 val moreCategory = moreTree(true)
                 val tree = buildTree("lowercase", degree, keyCategory, numCategory, moreCategory)
 
-                ctx.writeTree(tree, degree)
+                ctx.writeTreeLegacy(tree, degree, rearrange = false)
 
                 val moreCategoryUpper = moreTree(false)
                 keyCategoryTree.forEach { node -> makeUpperCase(node) }
                 val upperTree = buildTree("uppercase", degree, keyCategory, numCategory, moreCategoryUpper)
-                ctx.writeTree(upperTree, degree)
+
+                ctx.writeTreeLegacy(upperTree, degree, rearrange = false)
             }
         }
 
-
         private fun buildTree(name: String, degree: Int, keyCategory: Category, numCategory: Category, moreCategory: Category): Tree {
             val tree = Tree(name, LinkedHashSet())
-            if (degree == 2) {
-                val moreAndNumCategory = Category("123...", "keyboard_more", LinkedHashSet())
-                moreAndNumCategory.found["123"] = numCategory
-                moreAndNumCategory.found["More"] = moreCategory
-                tree.found["ABC"] = keyCategory
-                tree.found["More"] = moreAndNumCategory
-            } else {
-                tree.found["ABC"] = keyCategory
-                tree.found["More"] = moreCategory
-                tree.found["123"] = numCategory
+            when (degree) {
+                2 -> {
+                    val moreAndNumCategory = Category("123...", "keyboard_more", LinkedHashSet())
+                    moreAndNumCategory.found["123"] = numCategory
+                    moreAndNumCategory.found["More"] = moreCategory
+                    tree.found["ABC"] = keyCategory
+                    tree.found["More"] = moreAndNumCategory
+                }
+                3 -> {
+                    tree.found["ABC"] = keyCategory
+                    tree.found["More"] = moreCategory
+                    tree.found["123"] = numCategory
+                }
+                else -> {
+                    // TODO: make this better
+                    // tree.found["ABC"] = keyCategory
+                    if (keyCategory.found.size > degree - 2) {
+                        println("keyCategory to big: $keyCategory")
+                    } else {
+                        for (found in keyCategory.found.values) {
+                            tree.found[found.name] = found
+                        }
+                    }
+
+                    tree.found["More"] = moreCategory
+                    tree.found["123"] = numCategory
+
+                    assert(tree.found.size <= degree)
+                }
             }
 
             return tree
