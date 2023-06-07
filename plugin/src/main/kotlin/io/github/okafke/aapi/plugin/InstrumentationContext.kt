@@ -1,5 +1,6 @@
 package io.github.okafke.aapi.plugin
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonParser
 import io.github.okafke.aapi.api.DefaultTreeRearranger
 import io.github.okafke.aapi.api.TreeArrangerWithBackAction
@@ -87,7 +88,7 @@ class InstrumentationContext(val dir: File, val cacheDir: File): Serializable {
             //val treeRearranger = DefaultTreeRearranger()
             val treeRearranger = TreeArrangerWithBackAction()
             val nodes = treeRearranger.rearrange(tree.found.values.toTypedArray(), degree, nodeAdapter)
-            Constants.GSON.toJson(nodeAdapter.toJson(nodes), br)
+            Constants.GSON.toJson(nodeAdapter.toJson(nodes, JsonArray()), br)
         }
     }
 

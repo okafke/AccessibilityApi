@@ -5,6 +5,10 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import io.github.okafke.aapi.api.NodeAdapter
 import io.github.okafke.aapi.client.json.instances.BackAction
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
 
 class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> {
     private val childMap = HashMap<String, MutableList<Node>>()
@@ -13,7 +17,7 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
         childMap.clear()
     }
 
-    fun toJson(nodes: Array<Node>, result: JsonArray = JsonArray()): JsonArray {
+    fun toJson(nodes: Array<Node>, result: JsonArray): JsonArray {
         for (node in nodes) {
             val json = JsonObject()
             json.add("name", JsonPrimitive(node.name))
@@ -21,7 +25,7 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
             node.drawableId.forEach { drawableIds.add(JsonPrimitive(it)) }
             json.add("drawableId", drawableIds)
             if (node is Category) {
-                json.add("children", toJson(getChildren(node)))
+                json.add("children", toJson(getChildren(node), JsonArray()))
             } else if (node is Action) {
                 json.add("adapter", Constants.GSON.toJsonTree(node.adapter))
             }
@@ -106,6 +110,10 @@ class PluginNodeAdapter(val context: InstrumentationContext): NodeAdapter<Node> 
     }
 
     override fun getChildren(node: Node): Array<Node> {
+        if (node.name == "yz") {
+            return emptyArray()
+        }
+
         if (node is Category) {
             initializeChildMap(node)
             return childMap[node.name]?.toTypedArray() ?: emptyArray()
