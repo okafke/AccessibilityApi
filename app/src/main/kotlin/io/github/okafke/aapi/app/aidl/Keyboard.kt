@@ -12,6 +12,7 @@ class Keyboard: IKeyboard.Stub() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun type(key: String?) {
         val node = AApiOverlayService.instance?.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)
+        println("Focus node: $node")
         if (node != null) {
             val nodeText = if (node.isShowingHintText) "" else node.text ?: ""
             node.actionSetText("$nodeText$key")
@@ -21,6 +22,7 @@ class Keyboard: IKeyboard.Stub() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun delete() {
         val node = AApiOverlayService.instance?.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)
+        println("Focus node: $node")
         if (node != null) {
             val nodeText = if (node.isShowingHintText) "" else node.text ?: ""
             node.actionSetText(nodeText.substring(0, (nodeText.length - 1).coerceAtLeast(0)))

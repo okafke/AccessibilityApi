@@ -81,6 +81,8 @@ open class BetterGenerateKeyboardTreeTask @Inject constructor(private val ctx: I
         node.name = node.name.uppercase()
         if (node is Category) {
             node.found.values.forEach { makeUpperCase(it) }
+        } else if (node is Action) {
+            node.adapter.uid = node.adapter.uid.uppercase()
         }
     }
 
