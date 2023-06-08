@@ -29,10 +29,13 @@ class KeyboardService: AccessibilityService() {
     }
 
     override fun onKeyEvent(event: KeyEvent): Boolean {
+        println("KeyEvent $event")
         if (keyCodes.contains(event.keyCode)) {
-            service.whenAvailable { api ->
-                run {
-                    api.onInput(keyCodes[event.keyCode]!!)
+            if (service.isConnected()) {
+                service.whenAvailable { api ->
+                    run {
+                        api.onInput(keyCodes[event.keyCode]!!)
+                    }
                 }
             }
 
