@@ -81,14 +81,28 @@ class InstrumentationContext(val dir: File, val cacheDir: File): Serializable {
         trees.remove(tree.name, tree)
     }
 
-    fun writeTree(tree: Tree, degree: Int) {
+    fun writeTree(tree: Tree, degree: Int, rearrange: Boolean = true) {
         Files.newBufferedWriter(dir.toPath().resolve("${tree.name}_$degree.json")).use { br ->
             //Constants.GSON.toJson(tree.toJson(degree), br)
             val nodeAdapter = PluginNodeAdapter(this)
             //val treeRearranger = DefaultTreeRearranger()
             val treeRearranger = TreeArrangerWithBackAction()
-            val nodes = treeRearranger.rearrange(tree.found.values.toTypedArray(), degree, nodeAdapter)
-            Constants.GSON.toJson(nodeAdapter.toJson(nodes, JsonArray()), br)
+            if (rearrange) {
+                val nodes = treeRearranger.rearrange(tree.found.values.toTypedArray(), degree, nodeAdapter)
+                Constants.GSON.toJson(nodeAdapter.toJson(nodes, JsonArray()), br)
+            } else {
+                Constants.GSON.toJson(nodeAdapter.toJson(tree.found.values.toTypedArray(), JsonArray()), br)
+            }
+        }
+    }
+
+    fun writeTreeLegacy(tree: Tree, degree: Int, rearrange: Boolean = true) {
+        Files.newBufferedWriter(dir.toPath().resolve("${tree.name}_$degree.json")).use { br ->
+            if (rearrange) {
+                Constants.GSON.toJson(tree.toJson(degree), br)
+            } else {
+                Constants.GSON.toJson(tree.toJson(), br)
+            }
         }
     }
 

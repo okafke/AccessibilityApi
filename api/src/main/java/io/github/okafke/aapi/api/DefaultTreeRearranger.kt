@@ -14,6 +14,8 @@ open class DefaultTreeRearranger: TreeRearranger {
             val parentChildren = adapter.getChildren(superParent)
             if (parentChildren.size < degree) {
                 val nodesToMoveUp = adapter.getNodesToMoveUpwards(tree, degree - parentChildren.size)
+
+                println("parents $parents nodesToMoveUp ${nodesToMoveUp.contentToString()} tree $tree")
                 val list = ArrayList(tree.asList())
                 nodesToMoveUp.forEach {
                     adapter.addChild(superParent, it)
