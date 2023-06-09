@@ -10,7 +10,7 @@ data class Input(val index: Int,
             return "$index"
         }
 
-        return nodes.stream().map { node -> node.name }.collect(Collectors.joining(","))
+        return nodes.stream().map { node -> node.name }.distinct().collect(Collectors.joining(","))
     }
 
     fun getAsNode(): Node {

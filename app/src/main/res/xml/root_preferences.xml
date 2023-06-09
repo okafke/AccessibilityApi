@@ -34,6 +34,11 @@
             android:defaultValue="false"/>
 
         <CheckBoxPreference
+            android:title="@string/place_three"
+            android:key="@string/place_three_key"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
             android:title="@string/off_action"
             android:key="@string/off_action_key"
             android:defaultValue="false"/>
@@ -45,6 +50,14 @@
             android:max="1000"
             app:showSeekBarValue="true"
             app:defaultValue="50"/>
+
+        <SeekBarPreference
+            android:title="@string/middle_offset"
+            android:key="@string/middle_offset_key"
+            app:min="-500"
+            android:max="500"
+            app:showSeekBarValue="true"
+            app:defaultValue="75"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

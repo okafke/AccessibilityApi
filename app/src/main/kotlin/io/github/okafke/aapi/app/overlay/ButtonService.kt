@@ -145,18 +145,28 @@ class ButtonService {
             throw IndexOutOfBoundsException("$index not in 0-7")
         }
 
+        val preference = PreferenceManager.getDefaultSharedPreferences(overlay.context)
+        val middleOffset = preference.getInt(overlay.context.getString(R.string.middle_offset_key), 75)
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(overlay.context)
+        val placeThreeDiff = pref.getBoolean(overlay.context.getString(R.string.place_three_key), false)
+        if (index == 2 && placeThreeDiff) {
+            button.x = overlay.width.toFloat() - button.width
+            button.y = overlay.height / 2.0f - button.height / 2.0f - middleOffset
+            overlayElement?.keyCode = KeyEvent.KEYCODE_D
+            return
+        }
+
         when (index) {
             0 -> { // middle top
                 button.x = overlay.width / 2.0f - button.width / 2.0f
-
-                val preference = PreferenceManager.getDefaultSharedPreferences(overlay.context)
                 val y = preference.getInt(overlay.context.getString(R.string.camera_y_key), 50)
                 button.y = y.toFloat()
                 overlayElement?.keyCode = KeyEvent.KEYCODE_W
             }
             1 -> { // middle left
                 button.x = 0.0f
-                button.y = overlay.height / 2.0f - button.height / 2.0f
+                button.y = overlay.height / 2.0f - button.height / 2.0f - middleOffset
                 overlayElement?.keyCode = KeyEvent.KEYCODE_A
             }
             2 -> { // middle bottom
@@ -166,7 +176,7 @@ class ButtonService {
             }
             3 -> { // middle right
                 button.x = overlay.width.toFloat() - button.width
-                button.y = overlay.height / 2.0f - button.height / 2.0f
+                button.y = overlay.height / 2.0f - button.height / 2.0f - middleOffset
                 overlayElement?.keyCode = KeyEvent.KEYCODE_D
             }
             4 -> { // top left

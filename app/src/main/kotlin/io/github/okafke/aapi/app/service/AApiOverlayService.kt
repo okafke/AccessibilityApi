@@ -71,9 +71,9 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         preferences.registerOnSharedPreferenceChangeListener { _, _ ->
             NavigationTreeService.inputAmount = AApiUtil.getInputs(applicationContext)
+            inputService = InputServiceImpl(applicationContext, treeHolder, overlayUpdateService)
+            setMapper()
             if (isEnabled()) {
-                inputService = InputServiceImpl(applicationContext, treeHolder, overlayUpdateService)
-                setMapper()
                 addView()
                 onNewTree(treeHolder.currentTree)
             }
@@ -237,7 +237,7 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
     }
 
     override fun onKeyEvent(event: KeyEvent): Boolean {
-        println("onKeyEvent: $event")
+        // println("onKeyEvent: $event")
         if (event.action == ACTION_DOWN) {
             overlay.overlay?.overlayElements?.forEach {
                 if (it.keyCode == event.keyCode) {

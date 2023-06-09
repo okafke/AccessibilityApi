@@ -51,7 +51,7 @@ object NavigationTreeService: INavigationTreeService.Stub() {
     override fun registerInput(id: Int, node: Node) {
         assert(initialized.get())
         val input = inputs.computeIfAbsent(id) { Input(id) }
-        if (!input.nodes.contains(node)) {
+        if (!input.nodes.contains(node) && !input.nodes.stream().map { n -> n.name }.anyMatch(node.name::equals)) {
             input.nodes.add(node)
         }
 

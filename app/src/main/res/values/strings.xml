@@ -19,6 +19,9 @@
     <string name="add_aapi_settings_key">add_aapi_settings</string>
     <string name="add_aapi_settings">Add AAPI Action</string>
 
+    <string name="place_three_key">place_three</string>
+    <string name="place_three">Place Button 3 Differently</string>
+
     <string name="back_action_key">back_action</string>
     <string name="back_action">Add Back Action</string>
 
@@ -33,4 +36,7 @@
 
     <string name="camera_y_key">camera_y</string>
     <string name="camera_y">Camera Y</string>
+
+    <string name="middle_offset_key">middle_offset</string>
+    <string name="middle_offset">Middle Offset</string>
 </resources>

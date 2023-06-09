@@ -33,8 +33,14 @@ class KeyboardService: AccessibilityService() {
         if (keyCodes.contains(event.keyCode)) {
             if (service.isConnected()) {
                 service.whenAvailable { api ->
-                    run {
-                        api.onInput(keyCodes[event.keyCode]!!)
+                    if (event.keyCode == KeyEvent.KEYCODE_D && api.inputs == 3) {
+                        run {
+                            api.onInput(keyCodes[KeyEvent.KEYCODE_S]!!)
+                        }
+                    } else {
+                        run {
+                            api.onInput(keyCodes[event.keyCode]!!)
+                        }
                     }
                 }
             }
