@@ -7,6 +7,7 @@ import io.github.okafke.aapi.client.ClientService
 import java.io.InputStreamReader
 
 object ServiceHolder {
+    private val lock = Any()
     // TODO: Solve this with WeakReferences?
     //  Also this should actually be fine since it will hold the application context most likely
     lateinit var clientService: ClientService
@@ -16,8 +17,14 @@ object ServiceHolder {
     val GSON: Gson = GsonBuilder().setPrettyPrinting().create()
 
     fun init(ctx: Context) {
-        clientService = ClientService(ctx)
-        jsonService = JsonTreeService(clientService)
+        synchronized(lock) {
+            if (this::clientService.isInitialized) {
+                clientService.unbind()
+            }
+
+            clientService = ClientService(ctx)
+            jsonService = JsonTreeService(clientService)
+        }
     }
 
     fun refreshConnection(ctx: Context) {

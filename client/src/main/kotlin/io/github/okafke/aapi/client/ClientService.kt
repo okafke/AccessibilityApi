@@ -24,6 +24,11 @@ class ClientService(val ctx: Context, val addApp: Boolean = true) {
     private val lock: Any = Object()
     private val callbackHandler = CallbackHandler(ctx)
     var wasConnected = false
+    // TODO: something seems to be wrong with this connection object?
+    //  during typing sometimes letters were typed twice?
+    //  could it be that this object is not disposed properly?
+    //  and if a resumed Fragment/Activity calls the ServiceHolder it reconnects?
+    //  with the unbind() method this should be fixed, TODO: regress?
     private val connection = object: ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             wasConnected = true
@@ -52,8 +57,8 @@ class ClientService(val ctx: Context, val addApp: Boolean = true) {
 
     fun unbind() {
         ctx.unbindService(connection)
+        callbackHandler.clearCallbacks()
     }
-
 
     @Volatile
     var navigationService: INavigationTreeService? = null
