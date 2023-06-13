@@ -34,10 +34,11 @@ class Keyboard: IKeyboard.Stub() {
         AApiOverlayService.instance?.softKeyboardController?.showMode = AccessibilityService.SHOW_MODE_HIDDEN
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun open() {
-        // This does not work! But it is also not needed I just realized, we type using the ui of aapi
-        AApiOverlayService.instance?.softKeyboardController?.showMode = AccessibilityService.SHOW_MODE_IGNORE_HARD_KEYBOARD
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // This does not work! But it is also not needed I just realized, we type using the ui of aapi
+            AApiOverlayService.instance?.softKeyboardController?.showMode = AccessibilityService.SHOW_MODE_IGNORE_HARD_KEYBOARD
+        }
     }
 
     override fun hide() {

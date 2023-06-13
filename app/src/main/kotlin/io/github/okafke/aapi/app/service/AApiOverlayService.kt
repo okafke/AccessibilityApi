@@ -237,16 +237,17 @@ class AApiOverlayService : AccessibilityService(), TreeListener {
     }
 
     override fun onKeyEvent(event: KeyEvent): Boolean {
-        // println("onKeyEvent: $event")
         if (event.action == ACTION_DOWN) {
             overlay.overlay?.overlayElements?.forEach {
                 if (it.keyCode == event.keyCode) {
                     inputService.onInput(it.input)
                 }
             }
+
+            return true
         }
 
-        return true
+        return false
     }
 
     override fun onCreateInputMethod(): InputMethod {

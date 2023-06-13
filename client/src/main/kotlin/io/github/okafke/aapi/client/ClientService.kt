@@ -45,9 +45,15 @@ class ClientService(val ctx: Context, val addApp: Boolean = true) {
             println("Service disconnected!")
             synchronized(lock) {
                 navigationService = null
+                unbind()
             }
         }
     }
+
+    fun unbind() {
+        ctx.unbindService(connection)
+    }
+
 
     @Volatile
     var navigationService: INavigationTreeService? = null
